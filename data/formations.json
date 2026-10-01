@@ -1,0 +1,182 @@
+[
+  {
+    "id": "frm-bt-init",
+    "title": "Initiateur Beach Tennis",
+    "discipline": "beach-tennis",
+    "level": "initiateur",
+    "format": "presentiel",
+    "description": "Premier niveau du parcours MADES : encadrer une séance de découverte en toute sécurité, transmettre les règles de base et animer un groupe de débutants sur sable.",
+    "durationHours": 24,
+    "prerequisites": "Aucun prérequis — ouvert à tous à partir de 16 ans.",
+    "certification": "Certificat Initiateur Beach Tennis MADES",
+    "syllabus": [
+      "Histoire et règlement du beach tennis",
+      "Sécurité et spécificités du jeu sur sable",
+      "Pédagogie de la découverte (groupes débutants)",
+      "Organisation d'une séance type"
+    ],
+    "priceFCFA": 75000,
+    "active": true,
+    "createdAt": "2026-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "frm-bt-anim",
+    "title": "Animateur Beach Tennis",
+    "discipline": "beach-tennis",
+    "level": "animateur",
+    "format": "presentiel",
+    "description": "Conduire un cycle complet d'initiation, progresser dans la lecture du jeu et encadrer les premiers tournois internes.",
+    "durationHours": 40,
+    "prerequisites": "Certificat Initiateur Beach Tennis ou expérience équivalente validée par l'équipe pédagogique.",
+    "certification": "Certificat Animateur Beach Tennis MADES",
+    "syllabus": [
+      "Construction d'un cycle de 6 à 10 séances",
+      "Technique : service, coup droit, revers, volée",
+      "Animation de mini-tournois et classement interne",
+      "Suivi individualisé des progrès"
+    ],
+    "priceFCFA": 135000,
+    "active": true,
+    "createdAt": "2026-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "frm-bt-entr",
+    "title": "Entraîneur Beach Tennis",
+    "discipline": "beach-tennis",
+    "level": "entraineur",
+    "format": "hybride",
+    "description": "Encadrer des joueurs de niveau intermédiaire à confirmé, préparer à la compétition et structurer une saison sportive complète.",
+    "durationHours": 80,
+    "prerequisites": "Certificat Animateur Beach Tennis MADES ou diplôme fédéral équivalent.",
+    "certification": "Certificat Entraîneur Beach Tennis MADES",
+    "syllabus": [
+      "Préparation physique spécifique sable",
+      "Tactique de double et stratégie de match",
+      "Planification de saison et périodisation",
+      "Accompagnement en compétition"
+    ],
+    "priceFCFA": 280000,
+    "active": true,
+    "createdAt": "2026-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "frm-bt-de",
+    "title": "Diplôme d'État Beach Tennis (DE)",
+    "discipline": "beach-tennis",
+    "level": "de",
+    "format": "hybride",
+    "description": "Le niveau le plus élevé du parcours MADES, équivalent à un diplôme d'État : former des coachs professionnels capables de diriger une structure et former d'autres encadrants.",
+    "durationHours": 300,
+    "prerequisites": "Certificat Entraîneur Beach Tennis MADES, 2 ans d'expérience d'encadrement, dossier de candidature.",
+    "certification": "Diplôme d'État Beach Tennis MADES",
+    "syllabus": [
+      "Ingénierie de formation et pédagogie avancée",
+      "Direction d'une structure sportive",
+      "Formation de formateurs",
+      "Mémoire professionnel et soutenance"
+    ],
+    "priceFCFA": 950000,
+    "active": true,
+    "createdAt": "2026-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "frm-pad-init",
+    "title": "Initiateur Padel",
+    "discipline": "padel",
+    "level": "initiateur",
+    "format": "presentiel",
+    "description": "Les fondamentaux pour encadrer une première séance de padel : règles, sécurité sur un court vitré, animation de groupes mixtes débutants.",
+    "durationHours": 24,
+    "prerequisites": "Aucun prérequis.",
+    "certification": "Certificat Initiateur Padel MADES",
+    "syllabus": [
+      "Règles du padel et spécificités du court vitré",
+      "Sécurité et gestion du matériel",
+      "Pédagogie du double et de la relation partenaire",
+      "Séance type pour débutants"
+    ],
+    "priceFCFA": 80000,
+    "active": true,
+    "createdAt": "2026-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "frm-pad-anim",
+    "title": "Animateur Padel",
+    "discipline": "padel",
+    "level": "animateur",
+    "format": "presentiel",
+    "description": "Conduire un cycle de progression complet, introduire le jeu de vitres et organiser des événements internes.",
+    "durationHours": 40,
+    "prerequisites": "Certificat Initiateur Padel MADES ou expérience équivalente.",
+    "certification": "Certificat Animateur Padel MADES",
+    "syllabus": [
+      "Jeu de vitres et déplacements",
+      "Construction de cycles par niveau",
+      "Organisation de tournois internes (americano)",
+      "Évaluation et suivi de progression"
+    ],
+    "priceFCFA": 140000,
+    "active": true,
+    "createdAt": "2026-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "frm-ten-init",
+    "title": "Initiateur Tennis",
+    "discipline": "tennis",
+    "level": "initiateur",
+    "format": "presentiel",
+    "description": "Encadrer les premiers pas sur un court de tennis : sécurité, règles, pédagogie adaptée aux débutants de tout âge.",
+    "durationHours": 24,
+    "prerequisites": "Aucun prérequis.",
+    "certification": "Certificat Initiateur Tennis MADES",
+    "syllabus": [
+      "Règles et comptage du tennis",
+      "Sécurité et organisation du court",
+      "Pédagogie de la découverte",
+      "Jeux et exercices pour débutants"
+    ],
+    "priceFCFA": 75000,
+    "active": true,
+    "createdAt": "2026-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "frm-ten-entr",
+    "title": "Entraîneur Tennis",
+    "discipline": "tennis",
+    "level": "entraineur",
+    "format": "hybride",
+    "description": "Encadrer des joueurs confirmés, préparer la compétition individuelle et structurer une saison d'entraînement.",
+    "durationHours": 90,
+    "prerequisites": "Certificat Animateur Tennis MADES ou diplôme fédéral équivalent.",
+    "certification": "Certificat Entraîneur Tennis MADES",
+    "syllabus": [
+      "Analyse vidéo et correction technique",
+      "Préparation physique et prévention des blessures",
+      "Tactique de simple et de double",
+      "Accompagnement en tournoi"
+    ],
+    "priceFCFA": 290000,
+    "active": true,
+    "createdAt": "2026-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "frm-mt-init",
+    "title": "Initiateur Mini-Tennis",
+    "discipline": "mini-tennis",
+    "level": "initiateur",
+    "format": "presentiel",
+    "description": "Formation dédiée à l'encadrement des 4-10 ans : matériel adapté, jeux pédagogiques et développement moteur par le tennis.",
+    "durationHours": 16,
+    "prerequisites": "Aucun prérequis — recommandé pour les encadrants du milieu scolaire et périscolaire.",
+    "certification": "Certificat Initiateur Mini-Tennis MADES",
+    "syllabus": [
+      "Développement moteur de l'enfant par le tennis",
+      "Matériel adapté (balles mousse, raquettes courtes, terrains réduits)",
+      "Jeux pédagogiques et ludiques",
+      "Sécurité et communication avec les parents"
+    ],
+    "priceFCFA": 55000,
+    "active": true,
+    "createdAt": "2026-01-01T00:00:00.000Z"
+  }
+]

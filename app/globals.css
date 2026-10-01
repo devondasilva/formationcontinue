@@ -1,0 +1,242 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   Base
+   ============================================================ */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply bg-bg font-body text-ink antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  ::selection {
+    background: #ff4d00;
+    color: #fff;
+  }
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 2px solid #ff4d00;
+    outline-offset: 3px;
+  }
+}
+
+/* ============================================================
+   Typographie & composants réutilisables
+   ============================================================ */
+@layer components {
+  /* Titre signature : condensé, extra-gras, italique, capitales. */
+  .h-display {
+    font-family: theme("fontFamily.display");
+    font-weight: 900;
+    font-style: italic;
+    text-transform: uppercase;
+    line-height: 0.92;
+    letter-spacing: -0.005em;
+  }
+
+  .tag-label {
+    @apply inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-orange;
+  }
+  .tag-label::before {
+    content: "";
+    @apply inline-block h-1.5 w-1.5 rounded-full bg-orange;
+  }
+
+  .card {
+    @apply rounded-card border border-line bg-white;
+  }
+
+  .field-label {
+    @apply mb-1.5 block text-xs font-semibold text-ink/80;
+  }
+  .field {
+    @apply block w-full rounded-xl border border-line bg-white px-4 py-3 text-sm text-ink transition-[border-color,box-shadow] duration-200 placeholder:text-mutedfg/70;
+  }
+  .field:hover {
+    @apply border-ink/25;
+  }
+  .field:focus {
+    @apply border-orange outline-none;
+    box-shadow: 0 0 0 4px rgba(255, 77, 0, 0.12);
+  }
+  select.field {
+    @apply appearance-none bg-no-repeat pr-10;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23666660' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-position: right 0.9rem center;
+  }
+
+  /* Pastille ronde à flèche (cartes, listes). Tourne vers le haut au survol du parent .group. */
+  .arrow-chip {
+    @apply inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-line bg-white text-ink transition-all duration-500;
+  }
+  .group:hover .arrow-chip,
+  .group:focus-visible .arrow-chip {
+    @apply -rotate-45 border-orange bg-orange text-white;
+  }
+
+  /* Texte en contour (bandeaux). */
+  .text-stroke {
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke: 1.5px currentColor;
+  }
+
+  /* Coupe en biais façon tuiles mades-site. */
+  .slant-r {
+    clip-path: polygon(0 0, 100% 0, calc(100% - 22px) 100%, 0 100%);
+  }
+  .slant-l {
+    clip-path: polygon(22px 0, 100% 0, 100% 100%, 0 100%);
+  }
+  .slant-both {
+    clip-path: polygon(22px 0, 100% 0, calc(100% - 22px) 100%, 0 100%);
+  }
+
+  /* Grain papier très léger. */
+  .grain {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.05'/%3E%3C/svg%3E");
+  }
+
+  /* Trame de terrain (lignes de court) pour les fonds sombres. */
+  .court-lines {
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+  .court-lines-dark {
+    background-image:
+      linear-gradient(rgba(10, 10, 8, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(10, 10, 8, 0.05) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(127, 127, 127, 0.35) transparent;
+  }
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* ============================================================
+   Bouton signature : remplissage depuis le curseur,
+   roulement des lettres, flèche qui traverse.
+   ============================================================ */
+.btn-motion {
+  isolation: isolate;
+  position: relative;
+  overflow: hidden;
+}
+.btn-fill {
+  pointer-events: none;
+  position: absolute;
+  z-index: -1;
+  left: 50%;
+  top: 50%;
+  width: 260%;
+  aspect-ratio: 1;
+  border-radius: 9999px;
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.btn-motion:hover .btn-fill,
+.btn-motion:focus-visible .btn-fill {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.roll {
+  position: relative;
+  display: inline-flex;
+  overflow: hidden;
+  vertical-align: bottom;
+  line-height: 1.25;
+}
+.roll-line {
+  display: inline-flex;
+}
+.roll-line--next {
+  position: absolute;
+  left: 0;
+  top: 100%;
+}
+.roll-char {
+  display: inline-block;
+  white-space: pre;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: calc(var(--i, 0) * 16ms);
+}
+.btn-motion:hover .roll-char,
+.btn-motion:focus-visible .roll-char,
+.roll-trigger:hover .roll-char {
+  transform: translateY(-100%);
+}
+
+.btn-arrow {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.btn-arrow > svg {
+  position: absolute;
+  inset: 0;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.btn-arrow > svg:last-child {
+  transform: translateX(-130%);
+}
+.btn-motion:hover .btn-arrow > svg:first-child,
+.group:hover .btn-arrow > svg:first-child {
+  transform: translateX(130%);
+}
+.btn-motion:hover .btn-arrow > svg:last-child,
+.group:hover .btn-arrow > svg:last-child {
+  transform: translateX(0);
+}
+
+/* Lien souligné animé */
+.link-underline {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1.5px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.link-underline:hover,
+.group:hover .link-underline {
+  background-size: 100% 1.5px;
+}
+
+/* Masque pour l'apparition des titres mot par mot. */
+.word-mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding-right: 0.08em;
+  margin-right: -0.08em;
+  padding-bottom: 0.06em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

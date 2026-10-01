@@ -1,0 +1,122 @@
+[
+  {
+    "id": "ses-bt-init-1",
+    "formationId": "frm-bt-init",
+    "formationTitle": "Initiateur Beach Tennis",
+    "startDate": "2026-10-10",
+    "endDate": "2026-10-12",
+    "location": "Cotonou, plage de Fidjrossè",
+    "instructor": "Coach Idriss",
+    "capacity": 16,
+    "status": "ouverte",
+    "createdAt": "2026-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "ses-bt-anim-1",
+    "formationId": "frm-bt-anim",
+    "formationTitle": "Animateur Beach Tennis",
+    "startDate": "2026-11-07",
+    "endDate": "2026-11-11",
+    "location": "Cotonou, plage de Fidjrossè",
+    "instructor": "Coach Fifamè",
+    "capacity": 12,
+    "status": "ouverte",
+    "createdAt": "2026-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "ses-bt-entr-1",
+    "formationId": "frm-bt-entr",
+    "formationTitle": "Entraîneur Beach Tennis",
+    "startDate": "2026-11-30",
+    "endDate": "2026-12-09",
+    "location": "Cotonou — centre MADES + distanciel",
+    "instructor": "Coach Fifamè",
+    "capacity": 10,
+    "status": "ouverte",
+    "createdAt": "2026-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "ses-bt-de-1",
+    "formationId": "frm-bt-de",
+    "formationTitle": "Diplôme d'État Beach Tennis (DE)",
+    "startDate": "2027-01-11",
+    "endDate": "2027-01-31",
+    "location": "Cotonou — centre MADES + distanciel",
+    "instructor": "Direction pédagogique MADES",
+    "capacity": 8,
+    "status": "ouverte",
+    "createdAt": "2026-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "ses-pad-init-1",
+    "formationId": "frm-pad-init",
+    "formationTitle": "Initiateur Padel",
+    "startDate": "2026-10-17",
+    "endDate": "2026-10-19",
+    "location": "Cotonou, club Padel Houéyiho",
+    "instructor": "Coach Aristide",
+    "capacity": 16,
+    "status": "ouverte",
+    "createdAt": "2026-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "ses-pad-anim-1",
+    "formationId": "frm-pad-anim",
+    "formationTitle": "Animateur Padel",
+    "startDate": "2026-11-14",
+    "endDate": "2026-11-18",
+    "location": "Cotonou, club Padel Houéyiho",
+    "instructor": "Coach Aristide",
+    "capacity": 12,
+    "status": "ouverte",
+    "createdAt": "2026-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "ses-ten-init-1",
+    "formationId": "frm-ten-init",
+    "formationTitle": "Initiateur Tennis",
+    "startDate": "2026-10-24",
+    "endDate": "2026-10-26",
+    "location": "Cotonou, Tennis Club du Plateau",
+    "instructor": "Coach Edwige",
+    "capacity": 16,
+    "status": "ouverte",
+    "createdAt": "2026-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "ses-ten-entr-1",
+    "formationId": "frm-ten-entr",
+    "formationTitle": "Entraîneur Tennis",
+    "startDate": "2026-12-14",
+    "endDate": "2026-12-25",
+    "location": "Cotonou — centre MADES + distanciel",
+    "instructor": "Coach Edwige",
+    "capacity": 10,
+    "status": "ouverte",
+    "createdAt": "2026-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "ses-mt-init-1",
+    "formationId": "frm-mt-init",
+    "formationTitle": "Initiateur Mini-Tennis",
+    "startDate": "2026-10-21",
+    "endDate": "2026-10-22",
+    "location": "Cotonou, Tennis Club du Plateau",
+    "instructor": "Coach Edwige",
+    "capacity": 20,
+    "status": "ouverte",
+    "createdAt": "2026-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "ses-bt-init-2",
+    "formationId": "frm-bt-init",
+    "formationTitle": "Initiateur Beach Tennis",
+    "startDate": "2026-12-05",
+    "endDate": "2026-12-07",
+    "location": "Ouidah, plage de Ouidah",
+    "instructor": "Coach Idriss",
+    "capacity": 16,
+    "status": "ouverte",
+    "createdAt": "2026-01-01T00:00:00.000Z"
+  }
+]
