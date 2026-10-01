@@ -1,1 +1,21 @@
-[]
+[
+  {
+    "learnerId": "lrn-muq5lhgz-ju2to",
+    "learnerName": "Devon",
+    "sessionId": "ses-bt-init-1",
+    "formationId": "frm-bt-init",
+    "formationTitle": "Initiateur Beach Tennis",
+    "discipline": "beach-tennis",
+    "level": "initiateur",
+    "durationHours": 24,
+    "sessionStartDate": "2026-10-10",
+    "sessionEndDate": "2026-10-12",
+    "amountFCFA": 75000,
+    "currency": "FCFA",
+    "paymentMethod": "mtn_momo",
+    "status": "en_attente",
+    "certificateIssued": false,
+    "id": "enr-muq5o0fd-yiqps",
+    "createdAt": "2026-10-01T23:18:39.145Z"
+  }
+]

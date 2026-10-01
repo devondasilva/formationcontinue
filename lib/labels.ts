@@ -28,10 +28,10 @@ export const DISCIPLINE_DESC: Record<Discipline, string> = {
 };
 
 export const LEVEL_LABEL: Record<Level, string> = {
-  initiateur: "Initiateur",
-  animateur: "Animateur",
-  entraineur: "Entraîneur",
-  de: "Diplôme d'État",
+  initiateur: "Initiateur JES",
+  animateur: "Animateur JES",
+  entraineur: "Entraîneur JES",
+  de: "Diplôme d'État JES",
 };
 
 export const LEVEL_DESC: Record<Level, string> = {
