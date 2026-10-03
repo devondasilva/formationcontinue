@@ -5,13 +5,13 @@
     "level": "jes1",
     "format": "presentiel",
     "description": "Premier niveau du cursus Jeune Éducateur de Sport : encadrer en toute sécurité une séance de découverte dans chacun des cinq sports de raquette, et animer un groupe de débutants.",
-    "durationHours": 60,
+    "durationHours": 160,
     "prerequisites": "Aucun prérequis — ouvert à tous à partir de 16 ans.",
     "certification": "Certificat JES Niveau 1 — MADES",
     "modules": [
       {
         "discipline": "tennis",
-        "hours": 10,
+        "hours": 40,
         "topics": [
           "Règles, terrain et matériel",
           "Prise de raquette et échanges de base",
@@ -20,7 +20,7 @@
       },
       {
         "discipline": "beach-tennis",
-        "hours": 10,
+        "hours": 30,
         "topics": [
           "Spécificités du jeu sur sable",
           "Sécurité et échauffement en plein air",
@@ -29,7 +29,7 @@
       },
       {
         "discipline": "padel",
-        "hours": 10,
+        "hours": 30,
         "topics": [
           "Règles et jeu avec les vitres",
           "Service et premiers échanges",
@@ -38,7 +38,7 @@
       },
       {
         "discipline": "mini-tennis",
-        "hours": 10,
+        "hours": 30,
         "topics": [
           "Matériel adapté aux 4–10 ans",
           "Jeux moteurs et motricité",
@@ -47,7 +47,7 @@
       },
       {
         "discipline": "pickleball",
-        "hours": 10,
+        "hours": 30,
         "topics": [
           "Règles, zone de non-volée",
           "Service à la cuillère et dinks",
@@ -60,9 +60,10 @@
       "Sécurité, premiers secours et prévention des blessures",
       "Construire une séance type (échauffement, corps, retour au calme)"
     ],
-    "priceFCFA": 75000,
+    "priceFCFA": 300000,
     "active": true,
-    "createdAt": "2026-01-01T00:00:00.000Z"
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "partners": ""
   },
   {
     "id": "frm-jes2",
@@ -70,13 +71,13 @@
     "level": "jes2",
     "format": "presentiel",
     "description": "Second niveau du cursus Jeune Éducateur de Sport : construire et conduire des cycles de progression complets, adapter la pédagogie à chaque public et organiser des animations.",
-    "durationHours": 100,
+    "durationHours": 160,
     "prerequisites": "Certificat JES Niveau 1 MADES ou expérience équivalente validée par l'équipe pédagogique.",
     "certification": "Certificat JES Niveau 2 — MADES",
     "modules": [
       {
         "discipline": "tennis",
-        "hours": 18,
+        "hours": 40,
         "topics": [
           "Coup droit, revers, volée : progression technique",
           "Cycle de 8 séances",
@@ -85,7 +86,7 @@
       },
       {
         "discipline": "beach-tennis",
-        "hours": 18,
+        "hours": 30,
         "topics": [
           "Smash et jeu au filet sur sable",
           "Tactique de double",
@@ -94,7 +95,7 @@
       },
       {
         "discipline": "padel",
-        "hours": 18,
+        "hours": 30,
         "topics": [
           "Sortie de vitre et lob",
           "Positionnement à deux",
@@ -103,7 +104,7 @@
       },
       {
         "discipline": "mini-tennis",
-        "hours": 18,
+        "hours": 30,
         "topics": [
           "Progression par couleurs de balles",
           "Pédagogie par le jeu",
@@ -112,7 +113,7 @@
       },
       {
         "discipline": "pickleball",
-        "hours": 18,
+        "hours": 30,
         "topics": [
           "Troisième frappe et jeu de transition",
           "Stratégie en double",
@@ -125,9 +126,10 @@
       "Adapter la séance aux âges et aux niveaux",
       "Communication et gestion de groupe"
     ],
-    "priceFCFA": 135000,
+    "priceFCFA": 300000,
     "active": true,
-    "createdAt": "2026-01-01T00:00:00.000Z"
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "partners": ""
   },
   {
     "id": "frm-entraineur",

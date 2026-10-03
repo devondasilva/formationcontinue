@@ -40,18 +40,18 @@ export default function HomePage() {
         <div className="relative mx-auto grid max-w-content gap-12 px-5 pb-16 pt-6 sm:px-6 md:pt-10 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-6 lg:pt-8">
             <Reveal from="left">
-              <p className="tag-label">MADES · Formation continue des coachs</p>
+              <p className="tag-label">MADES · Formation continue &amp; apprentissage</p>
             </Reveal>
             <SplitTitle
-              text="La certification"
-              accent="ouvre des carrières."
+              text="Apprendre le métier,"
+              accent="le faire grandir."
               className="h-display mt-5 text-[clamp(3.2rem,7.2vw,6rem)] text-ink"
               delay={0.1}
             />
             <Reveal delay={350}>
               <p className="mt-6 max-w-md text-[17px] leading-relaxed text-mutedfg">
-                Quatre niveaux — JES 1, JES 2, Entraîneur, Diplôme d&rsquo;État — et à chaque niveau, cinq modules :
-                tennis, beach tennis, padel, mini-tennis et pickleball.
+                Un parcours complet d&rsquo;apprentissage et de formation continue pour les éducateurs et entraîneurs de
+                sports de raquette : tennis, beach tennis, padel, mini-tennis et pickleball.
               </p>
             </Reveal>
             <Reveal delay={450}>
@@ -89,54 +89,45 @@ export default function HomePage() {
             <div className="grid grid-cols-2 gap-2.5">
               {LEVELS.map((d, i) => {
                 const left = i % 2 === 0;
-                const accent = i === 3;
+                // Damier : blanc / orange en alternance.
+                const orange = i === 1 || i === 2;
                 const BigIcon = LEVEL_ICON[d];
                 const f = formationOf(d);
                 return (
-                  <Reveal key={d} delay={250 + i * 120} from={left ? "left" : "right"} className={i >= 2 ? "" : ""}>
+                  <Reveal key={d} delay={250 + i * 120} from={left ? "left" : "right"}>
                     <Link
                       href={f ? `/formations/${f.id}` : `/formations?niveau=${d}`}
-                      className={`group relative flex min-h-[210px] flex-col justify-end overflow-hidden p-5 text-white sm:min-h-[270px] sm:p-6 ${
+                      className={`group relative flex min-h-[210px] flex-col justify-end overflow-hidden p-5 sm:min-h-[270px] sm:p-6 ${
                         left ? "slant-r" : "slant-l"
-                      } ${accent ? "bg-orange" : "bg-ink2"}`}
+                      } ${orange ? "bg-orange text-white" : "bg-white text-ink"}`}
                     >
-                      <span className="court-lines absolute inset-0 transition-transform duration-[1.2s] ease-out group-hover:scale-110" />
-                      {accent ? (
-                        <Marquee
-                          items={["Partenaires", "Diplôme"]}
-                          outline
-                          fast
-                          className="h-display pointer-events-none absolute inset-x-0 top-6 text-7xl text-white/40"
-                        />
-                      ) : (
-                        <span className="absolute inset-0 bg-gradient-to-br from-orange/35 via-transparent to-transparent transition-opacity duration-700 group-hover:opacity-0" />
-                      )}
+                      <span className={`${orange ? "court-lines" : "court-lines-dark"} absolute inset-0 transition-transform duration-[1.2s] ease-out group-hover:scale-110`} />
                       <BigIcon
                         size={200}
                         strokeWidth={0.9}
                         className={`pointer-events-none absolute -right-8 -top-6 transition-all duration-700 ease-out group-hover:-rotate-12 group-hover:scale-110 ${
-                          accent ? "text-white/20" : "text-white/[0.13] group-hover:text-orange/40"
+                          orange ? "text-white/25 group-hover:text-white/40" : "text-ink/[0.07] group-hover:text-orange/30"
                         }`}
                       />
-                      <span className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
                       <span
-                        className={`absolute top-5 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white text-ink opacity-0 transition-all duration-500 group-hover:rotate-45 group-hover:opacity-100 ${
-                          left ? "right-9" : "right-5"
-                        }`}
+                        className={`absolute top-5 inline-flex h-10 w-10 items-center justify-center rounded-full opacity-0 transition-all duration-500 group-hover:rotate-45 group-hover:opacity-100 ${
+                          orange ? "bg-white text-orange" : "bg-orange text-white"
+                        } ${left ? "right-9" : "right-5"}`}
                       >
                         <ArrowUpRight size={18} />
                       </span>
                       <span className={`relative block ${left ? "" : "pl-3"}`}>
-                        <span className="flex items-center gap-2 font-mono text-[11px] tracking-[0.16em] text-white/80">
+                        <span className={`flex items-center gap-2 font-mono text-[11px] tracking-[0.16em] ${orange ? "text-white/85" : "text-orange"}`}>
                           0{i + 1}
-                          <span className="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-white/15 backdrop-blur animate-floaty" style={{ animationDelay: `${i * 0.5}s` }}>
+                          <span
+                            className={`inline-flex h-7 w-7 items-center justify-center rounded-lg animate-floaty ${orange ? "bg-white/20 text-white" : "bg-orange text-white"}`}
+                            style={{ animationDelay: `${i * 0.5}s` }}
+                          >
                             <LevelIcon level={d} size={15} />
                           </span>
                         </span>
                         <span className="h-display mt-2 block text-[2rem] transition-transform duration-500 group-hover:translate-x-1 sm:text-[2.6rem]">{LEVEL_LABEL[d]}</span>
-                        <span className="h-display mt-0.5 block text-base text-white/70">
-                          {LEVEL_SUB[d]}
-                        </span>
+                        <span className={`h-display mt-0.5 block text-base ${orange ? "text-white/80" : "text-mutedfg"}`}>{LEVEL_SUB[d]}</span>
                       </span>
                     </Link>
                   </Reveal>
@@ -242,16 +233,24 @@ export default function HomePage() {
             <div className="absolute left-[12.5%] right-[12.5%] top-[2.25rem] hidden h-0.5 bg-gradient-to-r from-orange/30 via-orange to-orange md:block" />
             {LEVELS.map((l, i) => (
               <Reveal key={l} delay={i * 130}>
-                <div className="group relative h-full rounded-card border border-white/10 bg-white/[0.03] p-6 transition-all duration-500 hover:-translate-y-1 hover:border-orange hover:bg-white/[0.06]">
-                  <span className="relative z-10 mx-auto flex h-[4.5rem] w-[4.5rem] items-center justify-center rounded-full border-4 border-ink bg-orange text-white transition-transform duration-500 group-hover:scale-110 md:mx-0">
+                <div
+                  className={`group relative h-full rounded-card p-6 transition-all duration-500 hover:-translate-y-1.5 hover:shadow-glow ${
+                    i % 2 === 0 ? "bg-white text-ink" : "bg-orange text-white"
+                  }`}
+                >
+                  <span
+                    className={`relative z-10 mx-auto flex h-[4.5rem] w-[4.5rem] items-center justify-center rounded-full border-4 border-ink transition-transform duration-500 group-hover:scale-110 md:mx-0 ${
+                      i % 2 === 0 ? "bg-orange text-white" : "bg-white text-orange"
+                    }`}
+                  >
                     <LevelIcon level={l} size={28} />
                   </span>
-                  <p className="mt-5 font-mono text-xs text-orange">Niveau {i + 1}</p>
+                  <p className={`mt-5 font-mono text-xs ${i % 2 === 0 ? "text-orange" : "text-white/80"}`}>Niveau {i + 1}</p>
                   <p className="h-display mt-1 text-3xl">{LEVEL_LABEL[l]}</p>
-                  <p className="font-mono text-[10px] uppercase tracking-wider text-white/45">{LEVEL_SUB[l]}</p>
-                  <p className="mt-3 text-sm leading-relaxed text-white/55">{LEVEL_DESC[l]}</p>
+                  <p className={`font-mono text-[10px] uppercase tracking-wider ${i % 2 === 0 ? "text-mutedfg" : "text-white/70"}`}>{LEVEL_SUB[l]}</p>
+                  <p className={`mt-3 text-sm leading-relaxed ${i % 2 === 0 ? "text-mutedfg" : "text-white/85"}`}>{LEVEL_DESC[l]}</p>
                   <div className="mt-5">
-                    <ModuleIcons modules={DISCIPLINES} size="sm" tone="glass" />
+                    <ModuleIcons modules={DISCIPLINES} size="sm" tone={i % 2 === 0 ? "dark" : "glass"} />
                   </div>
                 </div>
               </Reveal>

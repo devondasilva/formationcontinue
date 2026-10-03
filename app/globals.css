@@ -44,7 +44,7 @@
   }
 
   .tag-label {
-    @apply inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-orange;
+    @apply inline-flex items-center gap-2 font-body text-xs font-bold uppercase tracking-[0.16em] text-orange;
   }
   .tag-label::before {
     content: "";

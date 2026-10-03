@@ -118,5 +118,29 @@
     "capacity": 16,
     "status": "ouverte",
     "createdAt": "2026-01-01T00:00:00.000Z"
+  },
+  {
+    "formationId": "frm-jes2",
+    "formationTitle": "JES Niveau 2",
+    "startDate": "2027-01-02",
+    "endDate": "2027-09-04",
+    "location": "Cotonou",
+    "instructor": "",
+    "capacity": 10,
+    "status": "ouverte",
+    "id": "ses-musq7btt-gb7an",
+    "createdAt": "2026-10-03T18:29:05.057Z"
+  },
+  {
+    "formationId": "frm-jes1",
+    "formationTitle": "JES Niveau 1",
+    "startDate": "2027-01-02",
+    "endDate": "2027-08-28",
+    "location": "Cotonou, Benin",
+    "instructor": "Achille TAKPA",
+    "capacity": 10,
+    "status": "ouverte",
+    "id": "ses-musqd77e-dcb2a",
+    "createdAt": "2026-10-03T18:33:39.002Z"
   }
 ]
