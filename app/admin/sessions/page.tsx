@@ -26,7 +26,7 @@ import {
   dateParts,
   formatRange,
 } from "@/lib/labels";
-import { DisciplineIcon } from "@/components/icons/DisciplineIcon";
+import { LevelIcon } from "@/components/icons/DisciplineIcon";
 import ArrowButton from "@/components/ui/ArrowButton";
 import { Badge, EmptyState, Field, Meter, Skeleton } from "@/components/ui/primitives";
 import { useAdmin } from "../_lib/AdminContext";
@@ -181,7 +181,7 @@ function SessionsAdmin() {
                     </span>
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-1.5">
-                        {f && <DisciplineIcon discipline={f.discipline} size={15} className="shrink-0 text-orange" />}
+                        {f && <LevelIcon level={f.level} size={15} className="shrink-0 text-orange" />}
                         <p className="truncate text-sm font-semibold">{s.formationTitle}</p>
                       </div>
                       <p className="mt-0.5 font-mono text-[11px] text-mutedfg">{formatRange(s.startDate, s.endDate)}</p>
@@ -250,7 +250,7 @@ function SessionsAdmin() {
           <Field label="Formation">
             <div className="flex items-center gap-3">
               <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-ink text-white">
-                {selectedFormation ? <DisciplineIcon discipline={selectedFormation.discipline} size={24} /> : <CalendarDays size={20} />}
+                {selectedFormation ? <LevelIcon level={selectedFormation.level} size={22} /> : <CalendarDays size={20} />}
               </span>
               <select required disabled={editing !== "new"} className="field" value={form.formationId} onChange={(e) => setForm({ ...form, formationId: e.target.value })}>
                 <option value="">Choisir une formation…</option>

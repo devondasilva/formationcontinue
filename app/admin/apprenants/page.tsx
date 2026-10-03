@@ -3,8 +3,8 @@
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { Users, Mail, Phone, MessageCircle, Clock, Award, ClipboardCheck, UserX, FileSpreadsheet } from "lucide-react";
-import { DISCIPLINES, DISCIPLINE_LABEL, ENROLLMENT_STATUS_LABEL, ENROLLMENT_STATUS_TONE, LEVELS, formatDate, formatRange } from "@/lib/labels";
-import { DisciplineIcon } from "@/components/icons/DisciplineIcon";
+import { LEVEL_LABEL, ENROLLMENT_STATUS_LABEL, ENROLLMENT_STATUS_TONE, LEVELS, formatDate, formatRange } from "@/lib/labels";
+import { LevelIcon } from "@/components/icons/DisciplineIcon";
 import ArrowButton from "@/components/ui/ArrowButton";
 import { Badge, EmptyState, Skeleton } from "@/components/ui/primitives";
 import { useAdmin } from "../_lib/AdminContext";
@@ -127,18 +127,16 @@ export default function LearnersAdmin() {
             <div>
               <p className="field-label">Progression</p>
               <div className="grid grid-cols-2 gap-2">
-                {DISCIPLINES.map((d) => {
-                  const n = new Set(detail.en.filter((e) => e.discipline === d && e.status === "terminee").map((e) => e.level)).size;
+                {LEVELS.map((l, i) => {
+                  const ok = detail.en.some((e) => e.level === l && e.status === "terminee");
                   return (
-                    <div key={d} className="rounded-xl border border-line bg-white p-3">
-                      <p className="flex items-center gap-2 text-xs font-semibold">
-                        <DisciplineIcon discipline={d} size={15} className="text-orange" /> {DISCIPLINE_LABEL[d]}
-                      </p>
-                      <div className="mt-2 flex gap-1">
-                        {LEVELS.map((l, i) => (
-                          <span key={l} className={`h-1.5 flex-1 rounded-full ${i < n ? "bg-orange" : "bg-muted"}`} />
-                        ))}
-                      </div>
+                    <div key={l} className={`flex items-center gap-2 rounded-xl border p-3 text-xs font-semibold ${ok ? "border-orange bg-orangeL" : "border-line bg-white text-mutedfg"}`}>
+                      <span className={`inline-flex h-8 w-8 items-center justify-center rounded-lg ${ok ? "bg-orange text-white" : "bg-muted"}`}>
+                        <LevelIcon level={l} size={15} />
+                      </span>
+                      <span className="leading-tight">
+                        <span className="font-mono text-[10px] opacity-60">{i + 1}.</span> {LEVEL_LABEL[l]}
+                      </span>
                     </div>
                   );
                 })}
@@ -154,7 +152,7 @@ export default function LearnersAdmin() {
                   {detail.en.map((e) => (
                     <li key={e.id} className="flex items-center gap-3 rounded-xl border border-line bg-white p-3">
                       <span className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-ink text-white">
-                        <DisciplineIcon discipline={e.discipline} size={18} />
+                        <LevelIcon level={e.level} size={18} />
                       </span>
                       <div className="min-w-0 flex-1">
                         <p className="truncate text-sm font-semibold">{e.formationTitle}</p>

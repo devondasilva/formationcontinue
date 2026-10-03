@@ -1,181 +1,262 @@
 [
   {
-    "id": "frm-bt-init",
-    "title": "Initiateur Beach Tennis",
-    "discipline": "beach-tennis",
-    "level": "initiateur",
+    "id": "frm-jes1",
+    "title": "JES Niveau 1",
+    "level": "jes1",
     "format": "presentiel",
-    "description": "Premier niveau du parcours MADES : encadrer une séance de découverte en toute sécurité, transmettre les règles de base et animer un groupe de débutants sur sable.",
-    "durationHours": 24,
+    "description": "Premier niveau du cursus Jeune Éducateur de Sport : encadrer en toute sécurité une séance de découverte dans chacun des cinq sports de raquette, et animer un groupe de débutants.",
+    "durationHours": 60,
     "prerequisites": "Aucun prérequis — ouvert à tous à partir de 16 ans.",
-    "certification": "Certificat Initiateur Beach Tennis MADES",
+    "certification": "Certificat JES Niveau 1 — MADES",
+    "modules": [
+      {
+        "discipline": "tennis",
+        "hours": 10,
+        "topics": [
+          "Règles, terrain et matériel",
+          "Prise de raquette et échanges de base",
+          "Séance découverte en groupe"
+        ]
+      },
+      {
+        "discipline": "beach-tennis",
+        "hours": 10,
+        "topics": [
+          "Spécificités du jeu sur sable",
+          "Sécurité et échauffement en plein air",
+          "Jeux d'initiation en double"
+        ]
+      },
+      {
+        "discipline": "padel",
+        "hours": 10,
+        "topics": [
+          "Règles et jeu avec les vitres",
+          "Service et premiers échanges",
+          "Animation d'un groupe débutant"
+        ]
+      },
+      {
+        "discipline": "mini-tennis",
+        "hours": 10,
+        "topics": [
+          "Matériel adapté aux 4–10 ans",
+          "Jeux moteurs et motricité",
+          "Gestion d'un groupe d'enfants"
+        ]
+      },
+      {
+        "discipline": "pickleball",
+        "hours": 10,
+        "topics": [
+          "Règles, zone de non-volée",
+          "Service à la cuillère et dinks",
+          "Séance découverte intergénérationnelle"
+        ]
+      }
+    ],
     "syllabus": [
-      "Histoire et règlement du beach tennis",
-      "Sécurité et spécificités du jeu sur sable",
-      "Pédagogie de la découverte (groupes débutants)",
-      "Organisation d'une séance type"
+      "Rôle et posture de l'éducateur sportif",
+      "Sécurité, premiers secours et prévention des blessures",
+      "Construire une séance type (échauffement, corps, retour au calme)"
     ],
     "priceFCFA": 75000,
     "active": true,
     "createdAt": "2026-01-01T00:00:00.000Z"
   },
   {
-    "id": "frm-bt-anim",
-    "title": "Animateur Beach Tennis",
-    "discipline": "beach-tennis",
-    "level": "animateur",
+    "id": "frm-jes2",
+    "title": "JES Niveau 2",
+    "level": "jes2",
     "format": "presentiel",
-    "description": "Conduire un cycle complet d'initiation, progresser dans la lecture du jeu et encadrer les premiers tournois internes.",
-    "durationHours": 40,
-    "prerequisites": "Certificat Initiateur Beach Tennis ou expérience équivalente validée par l'équipe pédagogique.",
-    "certification": "Certificat Animateur Beach Tennis MADES",
+    "description": "Second niveau du cursus Jeune Éducateur de Sport : construire et conduire des cycles de progression complets, adapter la pédagogie à chaque public et organiser des animations.",
+    "durationHours": 100,
+    "prerequisites": "Certificat JES Niveau 1 MADES ou expérience équivalente validée par l'équipe pédagogique.",
+    "certification": "Certificat JES Niveau 2 — MADES",
+    "modules": [
+      {
+        "discipline": "tennis",
+        "hours": 18,
+        "topics": [
+          "Coup droit, revers, volée : progression technique",
+          "Cycle de 8 séances",
+          "Évaluation des joueurs"
+        ]
+      },
+      {
+        "discipline": "beach-tennis",
+        "hours": 18,
+        "topics": [
+          "Smash et jeu au filet sur sable",
+          "Tactique de double",
+          "Organisation d'un mini-tournoi"
+        ]
+      },
+      {
+        "discipline": "padel",
+        "hours": 18,
+        "topics": [
+          "Sortie de vitre et lob",
+          "Positionnement à deux",
+          "Animation de soirées padel"
+        ]
+      },
+      {
+        "discipline": "mini-tennis",
+        "hours": 18,
+        "topics": [
+          "Progression par couleurs de balles",
+          "Pédagogie par le jeu",
+          "Relation avec les parents"
+        ]
+      },
+      {
+        "discipline": "pickleball",
+        "hours": 18,
+        "topics": [
+          "Troisième frappe et jeu de transition",
+          "Stratégie en double",
+          "Pickleball pour seniors et débutants"
+        ]
+      }
+    ],
     "syllabus": [
-      "Construction d'un cycle de 6 à 10 séances",
-      "Technique : service, coup droit, revers, volée",
-      "Animation de mini-tournois et classement interne",
-      "Suivi individualisé des progrès"
+      "Planifier un cycle de progression",
+      "Adapter la séance aux âges et aux niveaux",
+      "Communication et gestion de groupe"
     ],
     "priceFCFA": 135000,
     "active": true,
     "createdAt": "2026-01-01T00:00:00.000Z"
   },
   {
-    "id": "frm-bt-entr",
-    "title": "Entraîneur Beach Tennis",
-    "discipline": "beach-tennis",
+    "id": "frm-entraineur",
+    "title": "Entraîneur sports de raquette",
     "level": "entraineur",
     "format": "hybride",
-    "description": "Encadrer des joueurs de niveau intermédiaire à confirmé, préparer à la compétition et structurer une saison sportive complète.",
-    "durationHours": 80,
-    "prerequisites": "Certificat Animateur Beach Tennis MADES ou diplôme fédéral équivalent.",
-    "certification": "Certificat Entraîneur Beach Tennis MADES",
+    "description": "Entraîner des joueurs de niveau intermédiaire à confirmé dans les cinq sports de raquette, les préparer à la compétition et structurer une saison sportive.",
+    "durationHours": 180,
+    "prerequisites": "Certificat JES Niveau 2 MADES ou diplôme fédéral équivalent.",
+    "certification": "Certificat Entraîneur sports de raquette — MADES",
+    "modules": [
+      {
+        "discipline": "tennis",
+        "hours": 32,
+        "topics": [
+          "Analyse technique et vidéo",
+          "Tactique de simple et de double",
+          "Accompagnement en compétition"
+        ]
+      },
+      {
+        "discipline": "beach-tennis",
+        "hours": 32,
+        "topics": [
+          "Préparation physique spécifique sable",
+          "Stratégie de match",
+          "Planification de saison"
+        ]
+      },
+      {
+        "discipline": "padel",
+        "hours": 32,
+        "topics": [
+          "Jeu tactique avancé",
+          "Lecture des trajectoires",
+          "Préparation aux tournois"
+        ]
+      },
+      {
+        "discipline": "mini-tennis",
+        "hours": 32,
+        "topics": [
+          "Détection des jeunes talents",
+          "Développement moteur à long terme",
+          "Encadrement de compétitions jeunes"
+        ]
+      },
+      {
+        "discipline": "pickleball",
+        "hours": 32,
+        "topics": [
+          "Technique avancée et variations",
+          "Tactique de compétition",
+          "Développer une section pickleball"
+        ]
+      }
+    ],
     "syllabus": [
-      "Préparation physique spécifique sable",
-      "Tactique de double et stratégie de match",
-      "Planification de saison et périodisation",
-      "Accompagnement en compétition"
+      "Périodisation et planification annuelle",
+      "Préparation mentale et récupération",
+      "Nutrition et hygiène de vie du sportif"
     ],
     "priceFCFA": 280000,
     "active": true,
     "createdAt": "2026-01-01T00:00:00.000Z"
   },
   {
-    "id": "frm-bt-de",
-    "title": "Diplôme d'État Beach Tennis (DE)",
-    "discipline": "beach-tennis",
+    "id": "frm-de",
+    "title": "Diplôme d'État",
     "level": "de",
     "format": "hybride",
-    "description": "Le niveau le plus élevé du parcours MADES, équivalent à un diplôme d'État : former des coachs professionnels capables de diriger une structure et former d'autres encadrants.",
-    "durationHours": 300,
-    "prerequisites": "Certificat Entraîneur Beach Tennis MADES, 2 ans d'expérience d'encadrement, dossier de candidature.",
-    "certification": "Diplôme d'État Beach Tennis MADES",
+    "description": "Le plus haut niveau du parcours MADES : diriger une structure sportive, concevoir des projets de développement et former les éducateurs et entraîneurs de demain, en partenariat avec nos partenaires.",
+    "durationHours": 350,
+    "prerequisites": "Certificat Entraîneur sports de raquette MADES et expérience d'encadrement d'au moins deux saisons.",
+    "certification": "Diplôme d'État — délivré avec nos partenaires",
+    "partners": "Formation délivrée en partenariat avec les partenaires institutionnels et fédéraux de MADES.",
+    "modules": [
+      {
+        "discipline": "tennis",
+        "hours": 50,
+        "topics": [
+          "Projet de performance",
+          "Formation de formateurs",
+          "Direction technique de club"
+        ]
+      },
+      {
+        "discipline": "beach-tennis",
+        "hours": 50,
+        "topics": [
+          "Développement de la discipline",
+          "Organisation d'événements",
+          "Structuration d'un circuit"
+        ]
+      },
+      {
+        "discipline": "padel",
+        "hours": 50,
+        "topics": [
+          "Création et gestion d'un club",
+          "Modèle économique",
+          "Formation des encadrants"
+        ]
+      },
+      {
+        "discipline": "mini-tennis",
+        "hours": 50,
+        "topics": [
+          "Projet école de sport",
+          "Partenariats avec les écoles",
+          "Formation des éducateurs jeunes"
+        ]
+      },
+      {
+        "discipline": "pickleball",
+        "hours": 50,
+        "topics": [
+          "Lancement d'une section",
+          "Développement des publics",
+          "Formation des animateurs"
+        ]
+      }
+    ],
     "syllabus": [
-      "Ingénierie de formation et pédagogie avancée",
-      "Direction d'une structure sportive",
-      "Formation de formateurs",
-      "Mémoire professionnel et soutenance"
+      "Management d'une structure sportive",
+      "Gestion de projet, budget et financements",
+      "Évaluation finale et soutenance devant jury"
     ],
     "priceFCFA": 950000,
-    "active": true,
-    "createdAt": "2026-01-01T00:00:00.000Z"
-  },
-  {
-    "id": "frm-pad-init",
-    "title": "Initiateur Padel",
-    "discipline": "padel",
-    "level": "initiateur",
-    "format": "presentiel",
-    "description": "Les fondamentaux pour encadrer une première séance de padel : règles, sécurité sur un court vitré, animation de groupes mixtes débutants.",
-    "durationHours": 24,
-    "prerequisites": "Aucun prérequis.",
-    "certification": "Certificat Initiateur Padel MADES",
-    "syllabus": [
-      "Règles du padel et spécificités du court vitré",
-      "Sécurité et gestion du matériel",
-      "Pédagogie du double et de la relation partenaire",
-      "Séance type pour débutants"
-    ],
-    "priceFCFA": 80000,
-    "active": true,
-    "createdAt": "2026-01-01T00:00:00.000Z"
-  },
-  {
-    "id": "frm-pad-anim",
-    "title": "Animateur Padel",
-    "discipline": "padel",
-    "level": "animateur",
-    "format": "presentiel",
-    "description": "Conduire un cycle de progression complet, introduire le jeu de vitres et organiser des événements internes.",
-    "durationHours": 40,
-    "prerequisites": "Certificat Initiateur Padel MADES ou expérience équivalente.",
-    "certification": "Certificat Animateur Padel MADES",
-    "syllabus": [
-      "Jeu de vitres et déplacements",
-      "Construction de cycles par niveau",
-      "Organisation de tournois internes (americano)",
-      "Évaluation et suivi de progression"
-    ],
-    "priceFCFA": 140000,
-    "active": true,
-    "createdAt": "2026-01-01T00:00:00.000Z"
-  },
-  {
-    "id": "frm-ten-init",
-    "title": "Initiateur Tennis",
-    "discipline": "tennis",
-    "level": "initiateur",
-    "format": "presentiel",
-    "description": "Encadrer les premiers pas sur un court de tennis : sécurité, règles, pédagogie adaptée aux débutants de tout âge.",
-    "durationHours": 24,
-    "prerequisites": "Aucun prérequis.",
-    "certification": "Certificat Initiateur Tennis MADES",
-    "syllabus": [
-      "Règles et comptage du tennis",
-      "Sécurité et organisation du court",
-      "Pédagogie de la découverte",
-      "Jeux et exercices pour débutants"
-    ],
-    "priceFCFA": 75000,
-    "active": true,
-    "createdAt": "2026-01-01T00:00:00.000Z"
-  },
-  {
-    "id": "frm-ten-entr",
-    "title": "Entraîneur Tennis",
-    "discipline": "tennis",
-    "level": "entraineur",
-    "format": "hybride",
-    "description": "Encadrer des joueurs confirmés, préparer la compétition individuelle et structurer une saison d'entraînement.",
-    "durationHours": 90,
-    "prerequisites": "Certificat Animateur Tennis MADES ou diplôme fédéral équivalent.",
-    "certification": "Certificat Entraîneur Tennis MADES",
-    "syllabus": [
-      "Analyse vidéo et correction technique",
-      "Préparation physique et prévention des blessures",
-      "Tactique de simple et de double",
-      "Accompagnement en tournoi"
-    ],
-    "priceFCFA": 290000,
-    "active": true,
-    "createdAt": "2026-01-01T00:00:00.000Z"
-  },
-  {
-    "id": "frm-mt-init",
-    "title": "Initiateur Mini-Tennis",
-    "discipline": "mini-tennis",
-    "level": "initiateur",
-    "format": "presentiel",
-    "description": "Formation dédiée à l'encadrement des 4-10 ans : matériel adapté, jeux pédagogiques et développement moteur par le tennis.",
-    "durationHours": 16,
-    "prerequisites": "Aucun prérequis — recommandé pour les encadrants du milieu scolaire et périscolaire.",
-    "certification": "Certificat Initiateur Mini-Tennis MADES",
-    "syllabus": [
-      "Développement moteur de l'enfant par le tennis",
-      "Matériel adapté (balles mousse, raquettes courtes, terrains réduits)",
-      "Jeux pédagogiques et ludiques",
-      "Sécurité et communication avec les parents"
-    ],
-    "priceFCFA": 55000,
     "active": true,
     "createdAt": "2026-01-01T00:00:00.000Z"
   }

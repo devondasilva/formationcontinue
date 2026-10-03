@@ -1,8 +1,14 @@
-export type Discipline = "beach-tennis" | "padel" | "tennis" | "mini-tennis";
+/**
+ * Module sportif enseigné à chaque niveau de formation
+ * (le nom de type « Discipline » est conservé pour la compatibilité du code).
+ */
+export type Discipline = "tennis" | "beach-tennis" | "padel" | "mini-tennis" | "pickleball";
 
-// Parcours progressif inspiré du schéma des diplômes d'État français
-// (initiateur -> animateur -> entraîneur -> Diplôme d'État).
-export type Level = "initiateur" | "animateur" | "entraineur" | "de";
+/**
+ * Les 4 niveaux de formation MADES :
+ * JES Niveau 1 → JES Niveau 2 → Entraîneur sports de raquette → Diplôme d'État (avec partenaires).
+ */
+export type Level = "jes1" | "jes2" | "entraineur" | "de";
 
 export type Format = "presentiel" | "distanciel" | "hybride";
 
@@ -35,17 +41,29 @@ export interface Learner {
   createdAt: string;
 }
 
+/** Un module sportif à l'intérieur d'un niveau de formation. */
+export interface FormationModule {
+  discipline: Discipline;
+  hours: number;
+  topics: string[];
+}
+
+/** Une formation = un niveau complet ; l'inscription, le prix et le certificat portent sur le niveau. */
 export interface Formation {
   id: string;
   title: string;
-  discipline: Discipline;
   level: Level;
   format: Format;
   description: string;
   durationHours: number;
   prerequisites: string;
-  certification: string; // ex. "Certificat Initiateur Beach Tennis MADES"
+  certification: string; // ex. "Certificat JES Niveau 1 — MADES"
+  /** Modules sportifs du niveau (beach tennis, padel, mini-tennis, pickleball, tennis). */
+  modules: FormationModule[];
+  /** Tronc commun : contenus transversaux (pédagogie, sécurité, éthique…). */
   syllabus: string[];
+  /** Mention de partenariat, ex. « Délivré en partenariat avec … » (surtout pour le DE). */
+  partners?: string;
   priceFCFA: number;
   active: boolean;
   createdAt: string;
@@ -75,7 +93,6 @@ export interface Enrollment {
   sessionId: string;
   formationId: string;
   formationTitle: string;
-  discipline: Discipline;
   level: Level;
   durationHours: number;
   sessionStartDate: string;

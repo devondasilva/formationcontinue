@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Star, Trash2, MessageSquareOff } from "lucide-react";
 import { formatDate } from "@/lib/labels";
-import { DisciplineIcon } from "@/components/icons/DisciplineIcon";
+import { LevelIcon } from "@/components/icons/DisciplineIcon";
 import { EmptyState, Skeleton } from "@/components/ui/primitives";
 import { useAdmin } from "../_lib/AdminContext";
 import type { AdminReview } from "../_lib/types";
@@ -103,7 +103,7 @@ export default function ReviewsAdmin() {
                   {r.comment && <p className="mt-3 text-sm leading-relaxed text-ink/80">{r.comment}</p>}
                   {fm && (
                     <p className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-muted px-2.5 py-1 text-[11px] font-semibold text-mutedfg">
-                      <DisciplineIcon discipline={fm.discipline} size={12} /> {fm.title}
+                      <LevelIcon level={fm.level} size={12} /> {fm.title}
                     </p>
                   )}
                 </motion.div>

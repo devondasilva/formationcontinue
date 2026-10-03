@@ -2,24 +2,26 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { AnimatePresence, motion } from "framer-motion";
-import { Check, Lock, Clock } from "lucide-react";
-import type { Discipline, Formation, Level } from "@/lib/types";
-import { DISCIPLINES, DISCIPLINE_LABEL, LEVELS, LEVEL_DESC, LEVEL_LABEL } from "@/lib/labels";
+import { motion } from "framer-motion";
+import { Check, Lock, Clock, Handshake } from "lucide-react";
+import type { Formation, Level } from "@/lib/types";
+import { DISCIPLINES, DISCIPLINE_LABEL, LEVELS, LEVEL_DESC, LEVEL_LABEL, LEVEL_SUB } from "@/lib/labels";
 import PageHero from "@/components/PageHero";
-import ArrowButton from "@/components/ui/ArrowButton";
+import ArrowButton, { SlideArrow } from "@/components/ui/ArrowButton";
+import ModuleIcons from "@/components/ModuleIcons";
 import { DisciplineIcon, LevelIcon } from "@/components/icons/DisciplineIcon";
 
 interface ProgressData {
-  byDiscipline: Record<string, Level[]>;
+  levels: Level[];
   totalHours: number;
 }
+
+const EASE = [0.22, 1, 0.36, 1] as const;
 
 export default function ParcoursPage() {
   const [formations, setFormations] = useState<Formation[]>([]);
   const [progress, setProgress] = useState<ProgressData | null>(null);
   const [isLearner, setIsLearner] = useState(false);
-  const [active, setActive] = useState<Discipline>("tennis");
 
   useEffect(() => {
     fetch("/api/formations").then((r) => r.json()).then((d) => setFormations(d.formations ?? []));
@@ -33,12 +35,10 @@ export default function ParcoursPage() {
       });
   }, []);
 
-  const formationFor = (d: Discipline, l: Level) => formations.find((f) => f.discipline === d && f.level === l && f.active);
-  const done = (d: Discipline, l: Level) => progress?.byDiscipline[d]?.includes(l) ?? false;
-  const doneCount = (d: Discipline) => LEVELS.filter((l) => done(d, l)).length;
-  // Le prochain niveau à viser = premier niveau non validé.
-  const nextIdx = LEVELS.findIndex((l) => !done(active, l));
-  const pct = (doneCount(active) / LEVELS.length) * 100;
+  const formationFor = (l: Level) => formations.find((f) => f.level === l && f.active);
+  const done = (l: Level) => progress?.levels.includes(l) ?? false;
+  const nextIdx = LEVELS.findIndex((l) => !done(l));
+  const pct = (LEVELS.filter(done).length / LEVELS.length) * 100;
 
   return (
     <div>
@@ -49,7 +49,7 @@ export default function ParcoursPage() {
         text={
           isLearner
             ? "Vos niveaux validés s'allument en orange. Le prochain niveau à viser est mis en avant."
-            : "Du premier encadrement au Diplôme d'État. Connectez-vous pour voir votre progression personnelle."
+            : "Du JES Niveau 1 au Diplôme d'État. À chaque niveau, les cinq modules sportifs. Connectez-vous pour voir votre progression."
         }
       >
         {!isLearner && (
@@ -60,105 +60,100 @@ export default function ParcoursPage() {
       </PageHero>
 
       <div className="mx-auto max-w-content px-5 pb-24 sm:px-6">
-        {/* Onglets disciplines */}
-        <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-thin" role="tablist">
-          {DISCIPLINES.map((d) => {
-            const on = active === d;
-            return (
-              <button
-                key={d}
-                role="tab"
-                aria-selected={on}
-                onClick={() => setActive(d)}
-                className={`relative flex shrink-0 items-center gap-3 rounded-full py-2 pl-2 pr-5 text-sm font-semibold transition-colors ${
-                  on ? "text-white" : "text-ink hover:bg-white"
-                }`}
-              >
-                {on && <motion.span layoutId="parcours-tab" className="absolute inset-0 rounded-full bg-ink" transition={{ type: "spring", stiffness: 420, damping: 34 }} />}
-                <span className={`relative inline-flex h-9 w-9 items-center justify-center rounded-full ${on ? "bg-orange" : "bg-muted"}`}>
-                  <DisciplineIcon discipline={d} size={20} />
-                </span>
-                <span className="relative">{DISCIPLINE_LABEL[d]}</span>
-                {isLearner && <span className="relative font-mono text-[11px] opacity-60">{doneCount(d)}/4</span>}
-              </button>
-            );
-          })}
+        {/* Les 5 modules communs à tous les niveaux */}
+        <div className="flex flex-wrap items-center gap-3 rounded-card border border-line bg-white p-4">
+          <p className="mr-2 font-mono text-[11px] uppercase tracking-[0.16em] text-mutedfg">Modules à chaque niveau</p>
+          {DISCIPLINES.map((d, i) => (
+            <motion.span
+              key={d}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 + i * 0.06, ease: EASE }}
+              className="inline-flex items-center gap-2 rounded-full bg-muted py-1 pl-1 pr-3 text-xs font-semibold"
+            >
+              <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-ink text-white">
+                <DisciplineIcon discipline={d} size={15} />
+              </span>
+              {DISCIPLINE_LABEL[d]}
+            </motion.span>
+          ))}
         </div>
 
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={active}
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-8"
-          >
-            {/* Barre de progression globale */}
-            <div className="relative mb-8 hidden md:block">
-              <div className="mx-[12.5%] h-1 rounded-full bg-muted">
-                <motion.div className="h-full rounded-full bg-orange" initial={{ width: 0 }} animate={{ width: `${pct}%` }} transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }} />
-              </div>
-            </div>
+        {/* Barre de progression globale */}
+        <div className="relative mt-10 hidden md:block">
+          <div className="mx-[12.5%] h-1 rounded-full bg-muted">
+            <motion.div className="h-full rounded-full bg-orange" initial={{ width: 0 }} animate={{ width: `${pct}%` }} transition={{ duration: 0.9, ease: EASE }} />
+          </div>
+        </div>
 
-            <div className="grid gap-4 md:grid-cols-4">
-              {LEVELS.map((l, i) => {
-                const f = formationFor(active, l);
-                const ok = done(active, l);
-                const isNext = isLearner && i === nextIdx;
-                return (
-                  <motion.div
-                    key={l}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: i * 0.08, duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-                    className={`relative flex flex-col rounded-card border-2 p-6 transition-shadow ${
-                      ok ? "border-orange bg-orange text-white" : isNext ? "border-ink bg-white shadow-lift" : "border-line bg-white"
-                    }`}
-                  >
-                    {isNext && (
-                      <span className="absolute -top-3 left-6 rounded-full bg-ink px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-white">
-                        Prochaine étape
-                      </span>
-                    )}
-                    <div className="flex items-center justify-between">
-                      <span className={`inline-flex h-12 w-12 items-center justify-center rounded-2xl ${ok ? "bg-white text-orange" : "bg-orangeL text-orange"}`}>
-                        {ok ? <Check size={24} strokeWidth={3} /> : <LevelIcon level={l} size={22} />}
-                      </span>
-                      <span className={`h-display text-5xl ${ok ? "text-white/30" : "text-muted"}`}>0{i + 1}</span>
-                    </div>
-                    <p className="h-display mt-5 text-3xl">{LEVEL_LABEL[l]}</p>
-                    <p className={`mt-1 text-sm leading-relaxed ${ok ? "text-white/80" : "text-mutedfg"}`}>{LEVEL_DESC[l]}</p>
+        <ol className="mt-8 grid gap-4 md:grid-cols-4">
+          {LEVELS.map((l, i) => {
+            const f = formationFor(l);
+            const ok = done(l);
+            const isNext = isLearner && i === nextIdx;
+            return (
+              <motion.li
+                key={l}
+                initial={{ opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 + i * 0.1, duration: 0.5, ease: EASE }}
+                className={`relative flex flex-col rounded-card border-2 p-6 ${
+                  ok ? "border-orange bg-orange text-white" : isNext ? "border-ink bg-white shadow-lift" : "border-line bg-white"
+                }`}
+              >
+                {isNext && (
+                  <span className="absolute -top-3 left-6 rounded-full bg-ink px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-white">
+                    Prochaine étape
+                  </span>
+                )}
+                <div className="flex items-center justify-between">
+                  <span className={`inline-flex h-12 w-12 items-center justify-center rounded-2xl ${ok ? "bg-white text-orange" : "bg-orangeL text-orange"}`}>
+                    {ok ? <Check size={24} strokeWidth={3} /> : <LevelIcon level={l} size={22} />}
+                  </span>
+                  <span className={`h-display text-5xl ${ok ? "text-white/30" : "text-muted"}`}>0{i + 1}</span>
+                </div>
+                <p className="h-display mt-5 text-3xl">{LEVEL_LABEL[l]}</p>
+                <p className={`font-mono text-[10px] uppercase tracking-wider ${ok ? "text-white/70" : "text-orange"}`}>{LEVEL_SUB[l]}</p>
+                <p className={`mt-3 text-sm leading-relaxed ${ok ? "text-white/80" : "text-mutedfg"}`}>{LEVEL_DESC[l]}</p>
 
-                    <div className="mt-auto pt-6">
-                      {ok ? (
-                        <span className="inline-flex items-center gap-1.5 rounded-full bg-white/20 px-3 py-1.5 text-xs font-semibold">
-                          <Check size={14} /> Validé
+                {f && f.modules.length > 0 && (
+                  <div className="mt-4">
+                    <ModuleIcons modules={f.modules.map((m) => m.discipline)} size="sm" tone={ok ? "glass" : "light"} />
+                  </div>
+                )}
+                {f?.partners && (
+                  <p className={`mt-3 inline-flex items-center gap-1.5 text-xs font-semibold ${ok ? "text-white" : "text-orangeD"}`}>
+                    <Handshake size={14} /> Avec nos partenaires
+                  </p>
+                )}
+
+                <div className="mt-auto pt-6">
+                  {ok ? (
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-white/20 px-3 py-1.5 text-xs font-semibold">
+                      <Check size={14} /> Validé
+                    </span>
+                  ) : f ? (
+                    <Link href={`/formations/${f.id}`} className="group flex items-center justify-between gap-3 rounded-2xl bg-muted p-3 transition-colors hover:bg-ink hover:text-white">
+                      <span>
+                        <span className="block text-xs font-semibold">Voir la formation</span>
+                        <span className="flex items-center gap-1 font-mono text-[10px] opacity-60">
+                          <Clock size={11} /> {f.durationHours} h
                         </span>
-                      ) : f ? (
-                        <Link href={`/formations/${f.id}`} className="group flex items-center justify-between gap-3 rounded-2xl bg-muted p-3 transition-colors hover:bg-ink hover:text-white">
-                          <span>
-                            <span className="block text-xs font-semibold">Voir la formation</span>
-                            <span className="flex items-center gap-1 font-mono text-[10px] opacity-60">
-                              <Clock size={11} /> {f.durationHours} h
-                            </span>
-                          </span>
-                          <span className="arrow-chip h-8 w-8">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
-                          </span>
-                        </Link>
-                      ) : (
-                        <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-mutedfg">
-                          <Lock size={13} /> Bientôt disponible
-                        </span>
-                      )}
-                    </div>
-                  </motion.div>
-                );
-              })}
-            </div>
-          </motion.div>
-        </AnimatePresence>
+                      </span>
+                      <span className="arrow-chip h-8 w-8">
+                        <SlideArrow size={14} />
+                      </span>
+                    </Link>
+                  ) : (
+                    <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-mutedfg">
+                      <Lock size={13} /> Bientôt disponible
+                    </span>
+                  )}
+                </div>
+              </motion.li>
+            );
+          })}
+        </ol>
       </div>
     </div>
   );

@@ -9,36 +9,55 @@ import type {
 
 /** Libellés partagés — une seule source de vérité pour toute l'interface. */
 
-export const DISCIPLINES: Discipline[] = ["tennis", "beach-tennis", "padel", "mini-tennis"];
-export const LEVELS: Level[] = ["initiateur", "animateur", "entraineur", "de"];
+/** Les 5 modules sportifs, présents à chaque niveau. */
+export const DISCIPLINES: Discipline[] = ["tennis", "beach-tennis", "padel", "mini-tennis", "pickleball"];
+export const LEVELS: Level[] = ["jes1", "jes2", "entraineur", "de"];
 export const FORMATS: Format[] = ["presentiel", "distanciel", "hybride"];
 
 export const DISCIPLINE_LABEL: Record<Discipline, string> = {
+  tennis: "Tennis",
   "beach-tennis": "Beach Tennis",
   padel: "Padel",
-  tennis: "Tennis",
   "mini-tennis": "Mini-Tennis",
+  pickleball: "Pickleball",
 };
 
 export const DISCIPLINE_DESC: Record<Discipline, string> = {
-  tennis: "La discipline fondatrice : technique, tactique et accompagnement de joueurs confirmés.",
-  "beach-tennis": "Du premier contact avec le sable jusqu'au Diplôme d'État, une discipline en plein essor.",
+  tennis: "La discipline fondatrice : technique, tactique et accompagnement des joueurs.",
+  "beach-tennis": "Le jeu sur sable, en plein essor sur les plages d'Afrique de l'Ouest.",
   padel: "Jeu en double, parois vitrées, pédagogie de la découverte : un sport en forte croissance.",
   "mini-tennis": "Encadrer les 4–10 ans avec du matériel et une pédagogie adaptés.",
+  pickleball: "Raquette pleine, balle perforée, terrain réduit : accessible à tous les âges.",
 };
 
 export const LEVEL_LABEL: Record<Level, string> = {
-  initiateur: "Initiateur JES",
-  animateur: "Animateur JES",
-  entraineur: "Entraîneur JES",
-  de: "Diplôme d'État JES",
+  jes1: "JES Niveau 1",
+  jes2: "JES Niveau 2",
+  entraineur: "Entraîneur sports de raquette",
+  de: "Diplôme d'État",
+};
+
+/** Libellé court (pastilles, graphiques). */
+export const LEVEL_SHORT: Record<Level, string> = {
+  jes1: "JES 1",
+  jes2: "JES 2",
+  entraineur: "Entraîneur",
+  de: "DE",
+};
+
+/** Sous-titre explicatif du sigle. */
+export const LEVEL_SUB: Record<Level, string> = {
+  jes1: "Jeune Éducateur de Sport",
+  jes2: "Jeune Éducateur de Sport",
+  entraineur: "Préparer à la compétition",
+  de: "Avec nos partenaires",
 };
 
 export const LEVEL_DESC: Record<Level, string> = {
-  initiateur: "Encadrer une première séance de découverte",
-  animateur: "Conduire un cycle complet de progression",
-  entraineur: "Préparer des joueurs à la compétition",
-  de: "Diriger une structure, former des formateurs",
+  jes1: "Encadrer en sécurité une première séance dans chaque sport de raquette.",
+  jes2: "Conduire des cycles complets et animer des groupes de tous âges.",
+  entraineur: "Entraîner et préparer des joueurs à la compétition.",
+  de: "Diriger une structure et former des formateurs, avec nos partenaires.",
 };
 
 export const FORMAT_LABEL: Record<Format, string> = {

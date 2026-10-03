@@ -69,11 +69,11 @@ export default function Footer() {
               </div>
             ))}
             <div>
-              <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-white/40">Disciplines</p>
+              <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-white/40">Modules</p>
               <ul className="mt-4 space-y-3">
                 {DISCIPLINES.map((d) => (
                   <li key={d}>
-                    <Link href={`/formations?discipline=${d}`} className="group inline-flex items-center gap-2 text-sm text-white/75 transition-colors hover:text-white">
+                    <Link href={`/formations?module=${d}`} className="group inline-flex items-center gap-2 text-sm text-white/75 transition-colors hover:text-white">
                       <span className="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-white/[0.07] transition-colors group-hover:bg-orange">
                         <DisciplineIcon discipline={d} size={15} />
                       </span>
@@ -105,7 +105,7 @@ export default function Footer() {
             </p>
           </div>
           <p className="border-t border-white/10 py-6 text-center font-mono text-[10px] uppercase tracking-[0.25em] text-white/30">
-            © {new Date().getFullYear()} MADES — Tennis · Beach Tennis · Padel · Mini-Tennis
+            © {new Date().getFullYear()} MADES — JES 1 · JES 2 · Entraîneur · Diplôme d&rsquo;État
           </p>
         </div>
       </div>

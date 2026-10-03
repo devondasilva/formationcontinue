@@ -3,8 +3,8 @@
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { Award, Download, BadgeCheck, Hourglass, Inbox } from "lucide-react";
-import { DISCIPLINE_LABEL, LEVEL_LABEL, formatRange } from "@/lib/labels";
-import { DisciplineIcon, LevelIcon } from "@/components/icons/DisciplineIcon";
+import { LEVEL_LABEL, formatRange } from "@/lib/labels";
+import { LevelIcon } from "@/components/icons/DisciplineIcon";
 import ArrowButton from "@/components/ui/ArrowButton";
 import { EmptyState, Skeleton } from "@/components/ui/primitives";
 import { useAdmin } from "../_lib/AdminContext";
@@ -74,11 +74,11 @@ export default function CertificatesAdmin() {
                 </div>
               </div>
               <div className="relative mt-4 flex items-center gap-2 rounded-xl bg-muted/60 p-3">
-                <DisciplineIcon discipline={e.discipline} size={20} className="text-orange" />
+                <LevelIcon level={e.level} size={20} className="text-orange" />
                 <div className="min-w-0">
                   <p className="truncate text-sm font-medium">{e.formationTitle}</p>
                   <p className="flex items-center gap-1 text-[11px] text-mutedfg">
-                    <LevelIcon level={e.level} size={11} /> {LEVEL_LABEL[e.level]} · {DISCIPLINE_LABEL[e.discipline]} · {e.durationHours} h
+                    <LevelIcon level={e.level} size={11} /> {LEVEL_LABEL[e.level]} · {e.durationHours} h
                   </p>
                 </div>
               </div>

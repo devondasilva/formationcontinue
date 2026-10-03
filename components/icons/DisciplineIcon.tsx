@@ -101,12 +101,24 @@ export function DisciplineIcon({
           <path d="M18.5 3.5v3M17 5h3" />
         </svg>
       );
+    case "pickleball":
+      // Raquette pleine à manche court + balle perforée
+      return (
+        <svg {...common}>
+          <rect x="3.2" y="2.5" width="10" height="11.5" rx="4.2" transform="rotate(-30 8.2 8.25)" />
+          <path d="M11.4 13.2l3.4 5.4" strokeWidth={strokeWidth + 1} />
+          <circle cx="18.2" cy="7" r="3.2" />
+          <circle cx="17.2" cy="6.1" r=".55" fill="currentColor" />
+          <circle cx="19.3" cy="6.4" r=".55" fill="currentColor" />
+          <circle cx="18.1" cy="8.2" r=".55" fill="currentColor" />
+        </svg>
+      );
   }
 }
 
 export const LEVEL_ICON: Record<Level, LucideIcon> = {
-  initiateur: Sprout,
-  animateur: Users,
+  jes1: Sprout,
+  jes2: Users,
   entraineur: Target,
   de: Crown,
 };

@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getFormations, createFormation } from "@/lib/db";
 import { requireAdmin } from "@/lib/auth";
-import { Discipline, Format, Level } from "@/lib/types";
+import { Format, FormationModule, Level } from "@/lib/types";
+import { DISCIPLINES, LEVELS } from "@/lib/labels";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -18,20 +19,24 @@ export async function POST(req: NextRequest) {
   }
   const body = await req.json();
   const {
-    title, discipline, level, format, description, durationHours,
-    prerequisites, certification, syllabus, priceFCFA,
+    title, level, format, description, durationHours,
+    prerequisites, certification, syllabus, priceFCFA, modules, partners,
   } = body as {
-    title: string; discipline: Discipline; level: Level; format: Format;
+    title: string; level: Level; format: Format;
     description: string; durationHours: number; prerequisites: string;
     certification: string; syllabus: string[]; priceFCFA: number;
+    modules: FormationModule[]; partners?: string;
   };
 
-  if (!title || !discipline || !level || !format || !durationHours || !priceFCFA) {
-    return NextResponse.json({ error: "Titre, discipline, niveau, format, durée et prix sont requis." }, { status: 400 });
+  if (!title || !LEVELS.includes(level) || !format || !durationHours || !priceFCFA) {
+    return NextResponse.json({ error: "Titre, niveau, format, durée et prix sont requis." }, { status: 400 });
   }
+  const cleanModules = (modules ?? []).filter((m) => DISCIPLINES.includes(m.discipline));
 
   const formation = createFormation({
-    title, discipline, level, format,
+    title, level, format,
+    modules: cleanModules,
+    partners: partners?.trim() || undefined,
     description: description ?? "",
     durationHours,
     prerequisites: prerequisites ?? "",

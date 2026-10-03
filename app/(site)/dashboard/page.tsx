@@ -20,21 +20,21 @@ import {
 } from "lucide-react";
 import type { Enrollment, Formation, Learner, Level } from "@/lib/types";
 import {
-  DISCIPLINES,
-  DISCIPLINE_LABEL,
   ENROLLMENT_STATUS_LABEL,
   ENROLLMENT_STATUS_TONE,
   LEVELS,
   LEVEL_LABEL,
+  LEVEL_SUB,
   formatRange,
 } from "@/lib/labels";
 import Counter from "@/components/Counter";
 import ArrowButton, { SlideArrow } from "@/components/ui/ArrowButton";
 import { Badge, EmptyState, Skeleton } from "@/components/ui/primitives";
-import { DisciplineIcon } from "@/components/icons/DisciplineIcon";
+import { LevelIcon } from "@/components/icons/DisciplineIcon";
+import ModuleIcons from "@/components/ModuleIcons";
 
 interface Progress {
-  byDiscipline: Record<string, Level[]>;
+  levels: Level[];
   totalHours: number;
   completedCount: number;
 }
@@ -82,17 +82,12 @@ export default function DashboardPage() {
     [enrollments, today]
   );
 
-  // Suggestion : le niveau suivant dans une discipline déjà commencée, sinon un premier niveau.
+  // Suggestion : le premier niveau non validé auquel l'apprenant n'est pas déjà inscrit.
   const suggestion = useMemo(() => {
     const enrolledIds = new Set(enrollments.filter((e) => e.status !== "annulee").map((e) => e.formationId));
-    for (const d of DISCIPLINES) {
-      const doneLv = progress?.byDiscipline[d] ?? [];
-      if (doneLv.length === 0) continue;
-      const nextLv = LEVELS.find((l) => !doneLv.includes(l));
-      const f = formations.find((x) => x.discipline === d && x.level === nextLv && !enrolledIds.has(x.id));
-      if (f) return f;
-    }
-    return formations.find((f) => f.level === "initiateur" && !enrolledIds.has(f.id)) ?? null;
+    const done = progress?.levels ?? [];
+    const nextLv = LEVELS.find((l) => !done.includes(l));
+    return formations.find((f) => f.level === nextLv && !enrolledIds.has(f.id)) ?? null;
   }, [formations, progress, enrollments]);
 
   async function handleLogout() {
@@ -120,7 +115,7 @@ export default function DashboardPage() {
 
   const certs = enrollments.filter((e) => e.certificateIssued).length;
   const kpis = [
-    { icon: GraduationCap, label: "Formations terminées", value: progress?.completedCount ?? 0, suffix: "" },
+    { icon: GraduationCap, label: "Niveaux validés", value: progress?.completedCount ?? 0, suffix: "" },
     { icon: Clock, label: "Heures de formation", value: progress?.totalHours ?? 0, suffix: " h" },
     { icon: Award, label: "Certificats obtenus", value: certs, suffix: "" },
   ];
@@ -192,14 +187,15 @@ export default function DashboardPage() {
 
         {suggestion && (
           <Link href={`/formations/${suggestion.id}`} className="group relative overflow-hidden rounded-card bg-orange p-7 text-white transition-transform duration-500 hover:-translate-y-1 lg:col-span-2">
-            <DisciplineIcon discipline={suggestion.discipline} size={180} strokeWidth={1} className="absolute -bottom-8 -right-8 opacity-20 transition-transform duration-700 group-hover:-rotate-12" />
+            <LevelIcon level={suggestion.level} size={170} className="absolute -bottom-8 -right-8 opacity-20 transition-transform duration-700 group-hover:-rotate-12" />
             <p className="relative inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.16em] text-white/80">
               <Sparkles size={13} /> Recommandé pour vous
             </p>
             <p className="h-display relative mt-3 text-4xl">{suggestion.title}</p>
-            <p className="relative mt-1 text-sm text-white/80">
-              {DISCIPLINE_LABEL[suggestion.discipline]} · {LEVEL_LABEL[suggestion.level]}
-            </p>
+            <p className="relative mt-1 text-sm text-white/80">Niveau {LEVELS.indexOf(suggestion.level) + 1} · {LEVEL_SUB[suggestion.level]}</p>
+            <div className="relative mt-4">
+              <ModuleIcons modules={suggestion.modules.map((m) => m.discipline)} size="sm" tone="glass" />
+            </div>
             <span className="relative mt-6 inline-flex h-11 w-11 items-center justify-center rounded-full bg-white text-orange transition-transform duration-500 group-hover:-rotate-45">
               <ArrowRight size={18} />
             </span>
@@ -224,7 +220,7 @@ export default function DashboardPage() {
         ))}
       </div>
 
-      {/* Progression par discipline */}
+      {/* Progression par niveau */}
       <section className="mt-12">
         <div className="flex items-end justify-between gap-4">
           <h2 className="h-display text-3xl">Ma progression</h2>
@@ -232,35 +228,34 @@ export default function DashboardPage() {
             Parcours complet <ArrowRight size={15} className="transition-transform group-hover:translate-x-1" />
           </Link>
         </div>
-        <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          {DISCIPLINES.map((d) => {
-            const n = progress?.byDiscipline[d]?.length ?? 0;
+        <ol className="relative mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {LEVELS.map((l, i) => {
+            const ok = progress?.levels.includes(l) ?? false;
+            const next = !ok && LEVELS.findIndex((x) => !(progress?.levels ?? []).includes(x)) === i;
             return (
-              <div key={d} className="card p-4">
+              <motion.li
+                key={l}
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.25 + i * 0.08 }}
+                className={`relative rounded-card border-2 p-4 ${ok ? "border-orange bg-orange text-white" : next ? "border-ink bg-white" : "border-line bg-white"}`}
+              >
+                {next && (
+                  <span className="absolute -top-2.5 left-4 rounded-full bg-ink px-2.5 py-0.5 font-mono text-[9px] uppercase tracking-wider text-white">Prochaine étape</span>
+                )}
                 <div className="flex items-center gap-3">
-                  <span className={`inline-flex h-10 w-10 items-center justify-center rounded-xl ${n > 0 ? "bg-orange text-white" : "bg-muted text-ink"}`}>
-                    <DisciplineIcon discipline={d} size={20} />
+                  <span className={`inline-flex h-10 w-10 items-center justify-center rounded-xl ${ok ? "bg-white text-orange" : next ? "bg-orange text-white" : "bg-muted text-mutedfg"}`}>
+                    {ok ? <Check size={20} strokeWidth={3} /> : <LevelIcon level={l} size={19} />}
                   </span>
-                  <div>
-                    <p className="text-sm font-semibold">{DISCIPLINE_LABEL[d]}</p>
-                    <p className="font-mono text-[10px] text-mutedfg">{n}/4 niveaux</p>
+                  <div className="min-w-0">
+                    <p className="text-sm font-semibold leading-tight">{LEVEL_LABEL[l]}</p>
+                    <p className={`font-mono text-[10px] uppercase ${ok ? "text-white/75" : "text-mutedfg"}`}>{ok ? "Validé" : `Niveau ${i + 1}`}</p>
                   </div>
                 </div>
-                <div className="mt-3 flex gap-1">
-                  {LEVELS.map((l, i) => (
-                    <motion.span
-                      key={l}
-                      initial={{ scaleX: 0 }}
-                      animate={{ scaleX: 1 }}
-                      transition={{ delay: 0.3 + i * 0.08 }}
-                      className={`h-1.5 flex-1 origin-left rounded-full ${i < n ? "bg-orange" : "bg-muted"}`}
-                    />
-                  ))}
-                </div>
-              </div>
+              </motion.li>
             );
           })}
-        </div>
+        </ol>
       </section>
 
       {/* Inscriptions */}
@@ -280,7 +275,7 @@ export default function DashboardPage() {
                   <div className="flex flex-wrap items-start justify-between gap-4">
                     <div className="flex items-start gap-4">
                       <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-ink text-white">
-                        <DisciplineIcon discipline={e.discipline} size={24} />
+                        <LevelIcon level={e.level} size={22} />
                       </span>
                       <div>
                         <p className="font-semibold">{e.formationTitle}</p>

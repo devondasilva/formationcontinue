@@ -116,7 +116,8 @@ export function findOrCreateLearner(name: string, email: string, phone: string):
 
 // ---------- Formations ----------
 export function getFormations(): Formation[] {
-  return readJSON<Formation[]>("formations.json");
+  // Tolère d'anciennes fiches sans modules (ancienne structure par discipline).
+  return readJSON<Formation[]>("formations.json").map((f) => ({ ...f, modules: f.modules ?? [], syllabus: f.syllabus ?? [] }));
 }
 
 export function getFormationById(id: string): Formation | undefined {
@@ -285,15 +286,12 @@ export function updateRates(rates: { EUR: number; USD: number }): ExchangeRates 
 }
 
 // ---------- Parcours / progression ----------
-export const LEVEL_ORDER: Level[] = ["initiateur", "animateur", "entraineur", "de"];
+export const LEVEL_ORDER: Level[] = ["jes1", "jes2", "entraineur", "de"];
 
+/** Niveaux validés (formations terminées) et heures cumulées d'un apprenant. */
 export function getLearnerProgress(learnerId: string) {
-  const enrollments = getEnrollmentsByLearner(learnerId).filter((e) => e.status === "terminee");
-  const byDiscipline: Record<string, Level[]> = {};
-  for (const e of enrollments) {
-    if (!byDiscipline[e.discipline]) byDiscipline[e.discipline] = [];
-    if (!byDiscipline[e.discipline].includes(e.level)) byDiscipline[e.discipline].push(e.level);
-  }
-  const totalHours = enrollments.reduce((s, e) => s + e.durationHours, 0);
-  return { byDiscipline, totalHours, completedCount: enrollments.length };
+  const done = getEnrollmentsByLearner(learnerId).filter((e) => e.status === "terminee");
+  const levels = LEVEL_ORDER.filter((l) => done.some((e) => e.level === l));
+  const totalHours = done.reduce((s, e) => s + e.durationHours, 0);
+  return { levels, totalHours, completedCount: done.length };
 }

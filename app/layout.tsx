@@ -13,11 +13,11 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "MADES Formation Continue — Tennis, Beach tennis, Padel, Mini-tennis",
+    default: "MADES Formation Continue — JES, Entraîneur, Diplôme d'État",
     template: "%s · MADES Formation Continue",
   },
   description:
-    "La formation continue des coachs MADES : parcours de certification en 4 niveaux, sessions programmées, suivi des heures et certificats, pour le tennis, le beach tennis, le padel et le mini-tennis.",
+    "La formation continue MADES en 4 niveaux — JES Niveau 1, JES Niveau 2, Entraîneur sports de raquette, Diplôme d'État — avec à chaque niveau les modules tennis, beach tennis, padel, mini-tennis et pickleball.",
 };
 
 export const viewport: Viewport = {

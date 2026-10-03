@@ -1,10 +1,11 @@
 # MADES Formation Continue
 
-Plateforme de formation continue MADES pour les coachs de **beach tennis,
-padel, tennis et mini-tennis** — catalogue de formations, parcours de
-certification progressif (Initiateur → Animateur → Entraîneur → Diplôme
-d'État), inscription en ligne multi-devises, certificats PDF, export
-calendrier, et back-office administrateur complet.
+Plateforme de formation continue MADES en **4 niveaux** — JES Niveau 1,
+JES Niveau 2, Entraîneur sports de raquette, Diplôme d'État (avec nos
+partenaires) — avec, à chaque niveau, **5 modules sportifs** : tennis, beach
+tennis, padel, mini-tennis et pickleball. Inscription en ligne par niveau
+(multi-devises), certificats PDF, export calendrier, et back-office
+administrateur complet.
 
 Construit avec **Next.js 14 (App Router)**, **TypeScript** et **Tailwind
 CSS**, dans la même configuration que le projet Beach Tennis Bénin : aucune
@@ -57,26 +58,31 @@ sont hachés avec sel (scrypt). Définissez la variable d'environnement
 
 ## Le parcours de certification
 
-Inspiré du système des diplômes d'État français, le parcours MADES suit
-quatre niveaux progressifs, déclinés sur chaque discipline :
+Le parcours MADES suit quatre niveaux progressifs :
 
-1. **Initiateur** — encadrer une première séance de découverte
-2. **Animateur** — conduire un cycle complet de progression
-3. **Entraîneur** — préparer à la compétition
-4. **Diplôme d'État (DE)** — diriger une structure, former des formateurs
+1. **JES Niveau 1** (Jeune Éducateur de Sport) — encadrer en sécurité une première séance
+2. **JES Niveau 2** (Jeune Éducateur de Sport) — conduire des cycles complets, tous publics
+3. **Entraîneur sports de raquette** — préparer des joueurs à la compétition
+4. **Diplôme d'État** — diriger une structure, former des formateurs, avec nos partenaires
 
-La page `/parcours` affiche cette progression pour chacune des 4 disciplines
-(beach tennis, padel, tennis, mini-tennis) et, pour un apprenant connecté,
-met en évidence les niveaux déjà validés (formations terminées).
+Chaque niveau est **une formation** : un coach s'inscrit au niveau complet
+(un prix, une session, un certificat). Chaque niveau contient les **5 modules
+sportifs** (tennis, beach tennis, padel, mini-tennis, pickleball) — avec
+leurs heures et leurs contenus — plus un **tronc commun** transversal
+(pédagogie, sécurité, gestion…). Le champ « Mention de partenariat » d'une
+formation (rempli pour le DE) s'affiche sur sa fiche et sur le certificat.
+
+La page `/parcours` affiche les 4 niveaux et, pour un apprenant connecté,
+met en évidence les niveaux déjà validés et le prochain à viser.
 
 ## Fonctionnalités
 
 | Page | Rôle |
 |---|---|
-| `/` | Page d'accueil, présentation du parcours et des disciplines |
-| `/formations` | Catalogue filtrable par discipline et par niveau |
+| `/` | Page d'accueil, présentation des 4 niveaux et des 5 modules |
+| `/formations` | Catalogue filtrable par niveau et par module sportif |
 | `/formations/[id]` | Fiche formation : programme, sessions, inscription, avis |
-| `/parcours` | Visualisation du parcours de certification par discipline |
+| `/parcours` | Visualisation du parcours de certification sur les 4 niveaux |
 | `/sessions` | Calendrier public de toutes les sessions programmées |
 | `/login` | Connexion (apprenant ou administration) |
 | `/dashboard` | Espace apprenant : inscriptions, heures cumulées, certificats |
@@ -91,8 +97,8 @@ toujours visible en haut. Chaque module est une page à part entière.
 
 | Module | Icône | Actions possibles |
 |---|---|---|
-| Vue d'ensemble | tableau de bord | Indicateurs animés, chiffre d'affaires sur 6 mois, inscriptions par discipline, prochaines sessions, dernières inscriptions, actions rapides |
-| Formations | livre | Créer / modifier / dupliquer / supprimer, publier ou masquer, programme (modules) |
+| Vue d'ensemble | tableau de bord | Indicateurs animés, chiffre d'affaires sur 6 mois, inscriptions par niveau, prochaines sessions, dernières inscriptions, actions rapides |
+| Formations | livre | Créer / modifier / dupliquer / supprimer un niveau, publier ou masquer, choisir les 5 modules sportifs (heures + contenus), tronc commun, mention de partenariat |
 | Sessions | calendrier | Programmer des dates, lieu, formateur, capacité ; suivre le remplissage |
 | Inscriptions | presse-papiers | Confirmer un paiement, terminer une formation (délivre le certificat), annuler, inscrire un apprenant, export CSV |
 | Apprenants | groupe | Liste des coachs, historique, export CSV |
@@ -110,7 +116,7 @@ Toutes les actions passent par des routes API protégées côté serveur
 - **Certificats PDF générés à la volée** (`lib` : `pdfkit`) : dès qu'une
   inscription passe au statut "terminée", un certificat officiel est
   généré et téléchargeable en un clic depuis `/dashboard` — nom de
-  l'apprenant, discipline, niveau, volume horaire, numéro de certificat.
+  l'apprenant, niveau, modules suivis, volume horaire, numéro de certificat.
 - **Export calendrier (.ics)** : chaque inscription peut être ajoutée en un
   clic à n'importe quel calendrier (Google Calendar, Outlook, Apple
   Calendar...), avec les bonnes dates, le lieu et le formateur.
@@ -153,10 +159,10 @@ L'interface reprend l'identité de [mades-site.vercel.app](https://mades-site.ve
   apparitions au défilement (`Reveal`), compteurs animés, bandeaux
   défilants, tuiles coupées en biais, barre de progression de lecture,
   menu mobile plein écran, transitions entre pages, bouton « retour en haut ».
-- **Icônes** : un pictogramme dessiné par discipline
+- **Icônes** : un pictogramme dessiné par module sportif, pickleball compris
   (`components/icons/DisciplineIcon.tsx`), une icône par niveau, et une
-  icône choisie automatiquement pour chaque module du programme d'après son
-  intitulé (`moduleIcon`).
+  icône choisie automatiquement pour chaque contenu du tronc commun d'après
+  son intitulé (`moduleIcon`).
 
 Toutes les animations sont coupées si l'utilisateur a activé « réduire les
 animations » dans son système.
@@ -197,5 +203,3 @@ scripts/create-admin.js           création/mise à jour d'un compte admin
   de paiement, et à l'émission du certificat.
 - **Quiz de validation** : ajouter un module d'évaluation en ligne avant de
   pouvoir marquer une inscription "terminée".
-#   f o r m a t i o n c o n t i n u e  
- 

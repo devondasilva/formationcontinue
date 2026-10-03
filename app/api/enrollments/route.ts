@@ -59,7 +59,6 @@ export async function POST(req: NextRequest) {
     sessionId: session.id,
     formationId: formation.id,
     formationTitle: formation.title,
-    discipline: formation.discipline,
     level: formation.level,
     durationHours: formation.durationHours,
     sessionStartDate: session.startDate,

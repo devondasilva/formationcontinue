@@ -7,10 +7,10 @@ import { Discipline, Formation, Level } from "@/lib/types";
 import { formatAmount } from "@/lib/currency";
 
 const DISCIPLINE_LABEL: Record<Discipline, string> = {
-  "beach-tennis": "Beach Tennis",
-  padel: "Padel",
-  tennis: "Tennis",
-  "mini-tennis": "Mini-Tennis",
+  "beach-tennis": "JES 1",
+  padel: "JES 2",
+  tennis: "Entraîneur",
+  "mini-tennis": "Diplôme d'État",
 };
 const LEVEL_LABEL: Record<Level, string> = {
   initiateur: "Initiateur",

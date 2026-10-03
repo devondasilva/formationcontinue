@@ -4,11 +4,12 @@ import { Suspense, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { BookOpen, Plus, Pencil, Copy, Trash2, CalendarPlus, LayoutGrid, Clock, Star, Eye, SearchX } from "lucide-react";
-import type { Discipline } from "@/lib/types";
-import { DISCIPLINES, DISCIPLINE_LABEL, FORMAT_LABEL, LEVELS, LEVEL_LABEL } from "@/lib/labels";
+import { BookOpen, Plus, Pencil, Copy, Trash2, CalendarPlus, LayoutGrid, Clock, Star, Eye, SearchX, Handshake } from "lucide-react";
+import type { Level } from "@/lib/types";
+import { FORMAT_LABEL, LEVELS, LEVEL_LABEL, LEVEL_SHORT } from "@/lib/labels";
 import { formatAmount } from "@/lib/currency";
-import { DisciplineIcon, LevelIcon } from "@/components/icons/DisciplineIcon";
+import { LEVEL_ICON, LevelIcon } from "@/components/icons/DisciplineIcon";
+import ModuleIcons from "@/components/ModuleIcons";
 import ArrowButton from "@/components/ui/ArrowButton";
 import { EmptyState, Skeleton } from "@/components/ui/primitives";
 import { useAdmin } from "../_lib/AdminContext";
@@ -29,7 +30,7 @@ function FormationsAdmin() {
   const { stats, mutate } = useAdmin();
   const params = useSearchParams();
   const router = useRouter();
-  const [filter, setFilter] = useState<Discipline | "tout">("tout");
+  const [filter, setFilter] = useState<Level | "tout">("tout");
   const [q, setQ] = useState("");
   const [editing, setEditing] = useState<AdminFormation | "new" | null>(null);
   const [draft, setDraft] = useState<FormationDraft>(emptyDraft);
@@ -70,9 +71,9 @@ function FormationsAdmin() {
     if (!stats) return [];
     const term = q.trim().toLowerCase();
     return stats.formations
-      .filter((f) => filter === "tout" || f.discipline === filter)
+      .filter((f) => filter === "tout" || f.level === filter)
       .filter((f) => !term || f.title.toLowerCase().includes(term))
-      .sort((a, b) => DISCIPLINES.indexOf(a.discipline) - DISCIPLINES.indexOf(b.discipline) || LEVELS.indexOf(a.level) - LEVELS.indexOf(b.level));
+      .sort((a, b) => LEVELS.indexOf(a.level) - LEVELS.indexOf(b.level));
   }, [stats, filter, q]);
 
   if (!stats) return <Skeleton className="h-96" />;
@@ -88,7 +89,7 @@ function FormationsAdmin() {
       <AdminHeader
         icon={BookOpen}
         title="Formations"
-        subtitle={`${stats.formations.length} formations · ${stats.formations.filter((f) => f.active).length} publiées`}
+        subtitle={`${stats.formations.length} niveaux de formation · ${stats.formations.filter((f) => f.active).length} publiés · 5 modules par niveau`}
         actions={
           <ArrowButton icon={Plus} onClick={() => openNew()}>
             Nouvelle formation
@@ -103,7 +104,7 @@ function FormationsAdmin() {
             onChange={setFilter}
             options={[
               { id: "tout", label: "Toutes", icon: LayoutGrid, count: stats.formations.length },
-              ...DISCIPLINES.map((d) => ({ id: d, label: DISCIPLINE_LABEL[d], count: stats.formations.filter((f) => f.discipline === d).length })),
+              ...LEVELS.map((l) => ({ id: l, label: LEVEL_SHORT[l], icon: LEVEL_ICON[l], count: stats.formations.filter((f) => f.level === l).length })),
             ]}
           />
         </div>
@@ -130,7 +131,7 @@ function FormationsAdmin() {
                   className={`group card flex flex-wrap items-center gap-4 p-4 transition-all hover:border-ink/25 hover:shadow-lift sm:flex-nowrap ${!f.active ? "bg-muted/40" : ""}`}
                 >
                   <span className={`inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl transition-all duration-300 group-hover:rotate-[-6deg] ${f.active ? "bg-ink text-white group-hover:bg-orange" : "bg-muted text-mutedfg"}`}>
-                    <DisciplineIcon discipline={f.discipline} size={28} />
+                    <LevelIcon level={f.level} size={26} />
                   </span>
                   <div className="min-w-0 flex-1">
                     <div className="flex flex-wrap items-center gap-2">
@@ -148,7 +149,14 @@ function FormationsAdmin() {
                       <span className="inline-flex items-center gap-1">
                         <Star size={12} /> {rating ? rating.toFixed(1) : "—"}
                       </span>
-                      <span className="font-mono">{f.syllabus.length} modules</span>
+                      {f.partners && (
+                        <span className="inline-flex items-center gap-1 text-orangeD">
+                          <Handshake size={12} /> Partenaires
+                        </span>
+                      )}
+                    </div>
+                    <div className="mt-2">
+                      <ModuleIcons modules={f.modules.map((m) => m.discipline)} size="sm" />
                     </div>
                   </div>
                   <Link href={`/admin/sessions?formation=${f.id}`} className="hidden rounded-xl bg-muted px-3 py-2 text-center transition-colors hover:bg-ink hover:text-white md:block">

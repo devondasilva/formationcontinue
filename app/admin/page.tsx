@@ -24,8 +24,8 @@ import {
 } from "lucide-react";
 import { formatAmount } from "@/lib/currency";
 import {
-  DISCIPLINES,
-  DISCIPLINE_LABEL,
+  LEVELS,
+  LEVEL_SUB,
   ENROLLMENT_STATUS_LABEL,
   ENROLLMENT_STATUS_TONE,
   LEVEL_LABEL,
@@ -35,7 +35,7 @@ import {
 import Counter from "@/components/Counter";
 import { Badge, Meter, Skeleton } from "@/components/ui/primitives";
 import { SlideArrow } from "@/components/ui/ArrowButton";
-import { DisciplineIcon } from "@/components/icons/DisciplineIcon";
+import { LevelIcon } from "@/components/icons/DisciplineIcon";
 import { useAdmin } from "./_lib/AdminContext";
 import { Avatar, Panel } from "./_components/kit";
 
@@ -62,7 +62,7 @@ export default function AdminOverview() {
       if (m) m.total += e.amountFCFA;
     }
 
-    const byDiscipline = DISCIPLINES.map((d) => ({ d, n: live.filter((e) => e.discipline === d).length }));
+    const byDiscipline = LEVELS.map((d) => ({ d, n: live.filter((e) => e.level === d).length }));
     const upcoming = stats.sessions
       .filter((s) => s.endDate >= today && s.status !== "annulee")
       .sort((a, b) => (a.startDate > b.startDate ? 1 : -1))
@@ -251,16 +251,18 @@ export default function AdminOverview() {
           </div>
         </Panel>
 
-        <Panel title="Inscriptions par discipline" icon={BookOpen} className="xl:col-span-2">
+        <Panel title="Inscriptions par niveau" icon={BookOpen} className="xl:col-span-2">
           <ul className="space-y-4">
             {data.byDiscipline.map((x, i) => (
               <li key={x.d} className="flex items-center gap-3">
                 <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-ink text-white">
-                  <DisciplineIcon discipline={x.d} size={20} />
+                  <LevelIcon level={x.d} size={19} />
                 </span>
                 <div className="min-w-0 flex-1">
                   <div className="flex items-baseline justify-between gap-2">
-                    <span className="text-sm font-semibold">{DISCIPLINE_LABEL[x.d]}</span>
+                    <span className="truncate text-sm font-semibold">
+                      {LEVEL_LABEL[x.d]} <span className="font-mono text-[10px] font-normal uppercase text-mutedfg">· {LEVEL_SUB[x.d]}</span>
+                    </span>
                     <span className="font-mono text-xs text-mutedfg">{x.n}</span>
                   </div>
                   <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-muted">
@@ -305,7 +307,7 @@ export default function AdminOverview() {
                       </span>
                       <div className="min-w-0 flex-1">
                         <p className="flex items-center gap-2 truncate text-sm font-semibold">
-                          {f && <DisciplineIcon discipline={f.discipline} size={15} className="shrink-0 text-orange" />}
+                          {f && <LevelIcon level={f.level} size={15} className="shrink-0 text-orange" />}
                           <span className="truncate">{s.formationTitle}</span>
                         </p>
                         <p className="mt-0.5 flex items-center gap-1 truncate text-xs text-mutedfg">

@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { Search, CalendarCheck, Award, ArrowRight, ArrowUpRight, Quote } from "lucide-react";
 import { getFormations, getSessions } from "@/lib/db";
-import { DISCIPLINES, DISCIPLINE_DESC, DISCIPLINE_LABEL, LEVELS, LEVEL_DESC, LEVEL_LABEL } from "@/lib/labels";
+import { DISCIPLINES, DISCIPLINE_DESC, DISCIPLINE_LABEL, LEVELS, LEVEL_DESC, LEVEL_LABEL, LEVEL_SUB } from "@/lib/labels";
+import ModuleIcons from "@/components/ModuleIcons";
 import Reveal from "@/components/Reveal";
 import SplitTitle from "@/components/SplitTitle";
 import Counter from "@/components/Counter";
@@ -9,27 +10,27 @@ import Marquee from "@/components/Marquee";
 import RotatingBadge from "@/components/RotatingBadge";
 import ArrowButton from "@/components/ui/ArrowButton";
 import FormationCard from "@/components/FormationCard";
-import { DisciplineIcon, LevelIcon } from "@/components/icons/DisciplineIcon";
+import { DisciplineIcon, LevelIcon, LEVEL_ICON } from "@/components/icons/DisciplineIcon";
 
 export const dynamic = "force-dynamic";
 
 const STEPS = [
-  { icon: Search, title: "Choisissez", text: "Filtrez par discipline et par niveau : la formation adaptée à votre étape s'affiche en un clic." },
+  { icon: Search, title: "Choisissez", text: "Choisissez votre niveau, de JES 1 au Diplôme d'État : les 5 modules sportifs sont inclus." },
   { icon: CalendarCheck, title: "Inscrivez-vous", text: "Sélectionnez une session, renseignez vos coordonnées, payez par Mobile Money, carte ou virement." },
-  { icon: Award, title: "Certifiez-vous", text: "Formation validée = certificat PDF téléchargeable et heures créditées dans votre espace." },
+  { icon: Award, title: "Certifiez-vous", text: "Niveau validé = certificat PDF téléchargeable et heures créditées dans votre espace." },
 ];
 
 const TESTIMONIALS = [
-  { quote: "Un cadre clair pour progresser, module après module, jusqu'au Diplôme d'État.", who: "Coach certifié", role: "Beach Tennis · Cotonou" },
-  { quote: "Le format hybride m'a permis de me former sans quitter mon club pendant des mois.", who: "Entraîneur certifié", role: "Tennis · Abidjan" },
-  { quote: "Le certificat délivré a changé la façon dont les clubs me recrutent.", who: "Animatrice certifiée", role: "Padel · Lomé" },
+  { quote: "Un cadre clair pour progresser, niveau après niveau, jusqu'au Diplôme d'État.", who: "Éducateur certifié", role: "JES Niveau 2 · Cotonou" },
+  { quote: "Cinq sports de raquette dans une seule formation : je peux encadrer tous les publics de mon club.", who: "Entraîneur certifié", role: "Entraîneur · Abidjan" },
+  { quote: "Le certificat délivré a changé la façon dont les clubs me recrutent.", who: "Éducatrice certifiée", role: "JES Niveau 1 · Lomé" },
 ];
 
 export default function HomePage() {
   const formations = getFormations().filter((f) => f.active);
   const openSessions = getSessions().filter((s) => s.status === "ouverte").length;
-  const featured = [...formations].sort((a, b) => LEVELS.indexOf(a.level) - LEVELS.indexOf(b.level)).slice(0, 3);
-  const countBy = (d: string) => formations.filter((f) => f.discipline === d).length;
+  const featured = [...formations].sort((a, b) => LEVELS.indexOf(a.level) - LEVELS.indexOf(b.level));
+  const formationOf = (l: string) => formations.find((f) => f.level === l);
 
   return (
     <div className="overflow-x-clip">
@@ -49,8 +50,8 @@ export default function HomePage() {
             />
             <Reveal delay={350}>
               <p className="mt-6 max-w-md text-[17px] leading-relaxed text-mutedfg">
-                Tennis, beach tennis, padel et mini-tennis : un parcours en 4 niveaux, de l&rsquo;initiateur au Diplôme
-                d&rsquo;État, avec certificat à la clé.
+                Quatre niveaux — JES 1, JES 2, Entraîneur, Diplôme d&rsquo;État — et à chaque niveau, cinq modules :
+                tennis, beach tennis, padel, mini-tennis et pickleball.
               </p>
             </Reveal>
             <Reveal delay={450}>
@@ -67,9 +68,9 @@ export default function HomePage() {
             <Reveal delay={550}>
               <dl className="mt-12 grid max-w-lg grid-cols-3 gap-6 border-t border-line pt-6">
                 {[
-                  { v: formations.length, l: "Formations", plus: true },
-                  { v: openSessions, l: "Sessions ouvertes", plus: false },
                   { v: 4, l: "Niveaux de certification", plus: false },
+                  { v: 5, l: "Modules par niveau", plus: false },
+                  { v: openSessions, l: "Sessions ouvertes", plus: false },
                 ].map((s) => (
                   <div key={s.l} className="flex flex-col-reverse">
                     <dt className="mt-1 font-mono text-[11px] leading-snug text-mutedfg">{s.l}</dt>
@@ -83,24 +84,26 @@ export default function HomePage() {
             </Reveal>
           </div>
 
-          {/* Tuiles des disciplines, coupées en biais comme sur mades-site */}
+          {/* Tuiles des 4 niveaux, coupées en biais comme sur mades-site */}
           <div className="relative lg:col-span-6">
             <div className="grid grid-cols-2 gap-2.5">
-              {DISCIPLINES.map((d, i) => {
+              {LEVELS.map((d, i) => {
                 const left = i % 2 === 0;
-                const accent = i === 1;
+                const accent = i === 3;
+                const BigIcon = LEVEL_ICON[d];
+                const f = formationOf(d);
                 return (
                   <Reveal key={d} delay={250 + i * 120} from={left ? "left" : "right"} className={i >= 2 ? "" : ""}>
                     <Link
-                      href={`/formations?discipline=${d}`}
-                      className={`group relative flex min-h-[200px] flex-col justify-end overflow-hidden p-5 text-white sm:min-h-[250px] sm:p-6 ${
+                      href={f ? `/formations/${f.id}` : `/formations?niveau=${d}`}
+                      className={`group relative flex min-h-[210px] flex-col justify-end overflow-hidden p-5 text-white sm:min-h-[270px] sm:p-6 ${
                         left ? "slant-r" : "slant-l"
                       } ${accent ? "bg-orange" : "bg-ink2"}`}
                     >
                       <span className="court-lines absolute inset-0 transition-transform duration-[1.2s] ease-out group-hover:scale-110" />
                       {accent ? (
                         <Marquee
-                          items={["Certification", "Emploi"]}
+                          items={["Partenaires", "Diplôme"]}
                           outline
                           fast
                           className="h-display pointer-events-none absolute inset-x-0 top-6 text-7xl text-white/40"
@@ -108,9 +111,8 @@ export default function HomePage() {
                       ) : (
                         <span className="absolute inset-0 bg-gradient-to-br from-orange/35 via-transparent to-transparent transition-opacity duration-700 group-hover:opacity-0" />
                       )}
-                      <DisciplineIcon
-                        discipline={d}
-                        size={210}
+                      <BigIcon
+                        size={200}
                         strokeWidth={0.9}
                         className={`pointer-events-none absolute -right-8 -top-6 transition-all duration-700 ease-out group-hover:-rotate-12 group-hover:scale-110 ${
                           accent ? "text-white/20" : "text-white/[0.13] group-hover:text-orange/40"
@@ -128,12 +130,12 @@ export default function HomePage() {
                         <span className="flex items-center gap-2 font-mono text-[11px] tracking-[0.16em] text-white/80">
                           0{i + 1}
                           <span className="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-white/15 backdrop-blur animate-floaty" style={{ animationDelay: `${i * 0.5}s` }}>
-                            <DisciplineIcon discipline={d} size={16} />
+                            <LevelIcon level={d} size={15} />
                           </span>
                         </span>
-                        <span className="h-display mt-2 block text-4xl transition-transform duration-500 group-hover:translate-x-1 sm:text-5xl">{DISCIPLINE_LABEL[d]}</span>
+                        <span className="h-display mt-2 block text-[2rem] transition-transform duration-500 group-hover:translate-x-1 sm:text-[2.6rem]">{LEVEL_LABEL[d]}</span>
                         <span className="h-display mt-0.5 block text-base text-white/70">
-                          {countBy(d)} formation{countBy(d) > 1 ? "s" : ""}
+                          {LEVEL_SUB[d]}
                         </span>
                       </span>
                     </Link>
@@ -150,7 +152,7 @@ export default function HomePage() {
 
       {/* ================= BANDEAU NIVEAUX ================= */}
       <section className="relative z-10 mt-6 -rotate-[1.5deg] bg-orange py-5 text-white shadow-glow">
-        <Marquee items={["Initiateur", "Animateur", "Entraîneur", "Diplôme d'État"]} outlineEvery className="h-display text-5xl md:text-7xl" />
+        <Marquee items={DISCIPLINES.map((d) => DISCIPLINE_LABEL[d])} outlineEvery className="h-display text-5xl md:text-7xl" />
       </section>
 
       {/* ================= EN 3 ÉTAPES ================= */}
@@ -185,8 +187,10 @@ export default function HomePage() {
         <div className="mx-auto max-w-content px-5 sm:px-6">
           <div className="flex flex-wrap items-end justify-between gap-6">
             <Reveal>
-              <p className="tag-label">Disciplines</p>
-              <h2 className="h-display mt-4 max-w-2xl text-5xl md:text-6xl">Des formations pour des carrières d&rsquo;excellence.</h2>
+              <p className="tag-label">Les modules</p>
+              <h2 className="h-display mt-4 max-w-2xl text-5xl md:text-6xl">
+                Cinq sports de raquette, <span className="text-orange">à chaque niveau.</span>
+              </h2>
             </Reveal>
             <Reveal delay={120}>
               <ArrowButton href="/formations" variant="outline">
@@ -199,7 +203,7 @@ export default function HomePage() {
             {DISCIPLINES.map((d, i) => (
               <Reveal key={d} delay={i * 80}>
                 <Link
-                  href={`/formations?discipline=${d}`}
+                  href={`/formations?module=${d}`}
                   className="group relative grid grid-cols-[auto_1fr_auto] items-center gap-5 overflow-hidden py-7 md:grid-cols-[4rem_auto_1fr_auto] md:gap-8"
                 >
                   <span className="absolute inset-0 origin-bottom scale-y-0 bg-orange transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-y-100" />
@@ -230,7 +234,7 @@ export default function HomePage() {
           <Reveal>
             <p className="tag-label">Le parcours</p>
             <h2 className="h-display mt-4 max-w-2xl text-5xl md:text-6xl">
-              Du premier encadrement <span className="text-orange">au Diplôme d&rsquo;État.</span>
+              Du JES Niveau 1 <span className="text-orange">au Diplôme d&rsquo;État.</span>
             </h2>
           </Reveal>
 
@@ -244,7 +248,11 @@ export default function HomePage() {
                   </span>
                   <p className="mt-5 font-mono text-xs text-orange">Niveau {i + 1}</p>
                   <p className="h-display mt-1 text-3xl">{LEVEL_LABEL[l]}</p>
-                  <p className="mt-2 text-sm leading-relaxed text-white/55">{LEVEL_DESC[l]}</p>
+                  <p className="font-mono text-[10px] uppercase tracking-wider text-white/45">{LEVEL_SUB[l]}</p>
+                  <p className="mt-3 text-sm leading-relaxed text-white/55">{LEVEL_DESC[l]}</p>
+                  <div className="mt-5">
+                    <ModuleIcons modules={DISCIPLINES} size="sm" tone="glass" />
+                  </div>
                 </div>
               </Reveal>
             ))}
@@ -261,10 +269,10 @@ export default function HomePage() {
       {featured.length > 0 && (
         <section className="mx-auto max-w-content px-5 py-24 sm:px-6">
           <Reveal>
-            <p className="tag-label">Pour commencer</p>
-            <h2 className="h-display mt-4 text-5xl md:text-6xl">Formations à la une</h2>
+            <p className="tag-label">S&rsquo;inscrire</p>
+            <h2 className="h-display mt-4 text-5xl md:text-6xl">Choisissez votre niveau</h2>
           </Reveal>
-          <div className="mt-12 grid gap-5 md:grid-cols-3">
+          <div className="mt-12 grid gap-5 md:grid-cols-2">
             {featured.map((f, i) => (
               <Reveal key={f.id} delay={i * 120}>
                 <FormationCard f={f} />

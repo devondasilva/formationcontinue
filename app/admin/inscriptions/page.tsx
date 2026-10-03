@@ -20,7 +20,7 @@ import {
 import type { Currency, EnrollmentStatus, PaymentMethod } from "@/lib/types";
 import { ENROLLMENT_STATUS_LABEL, ENROLLMENT_STATUS_TONE, PAYMENT_LABEL, formatRange } from "@/lib/labels";
 import { formatAmount } from "@/lib/currency";
-import { DisciplineIcon } from "@/components/icons/DisciplineIcon";
+import { LevelIcon } from "@/components/icons/DisciplineIcon";
 import ArrowButton from "@/components/ui/ArrowButton";
 import CurrencySelector from "@/components/CurrencySelector";
 import { Badge, EmptyState, Field, Skeleton } from "@/components/ui/primitives";
@@ -229,7 +229,7 @@ function EnrollmentsAdmin() {
                       </td>
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-2">
-                          <DisciplineIcon discipline={e.discipline} size={16} className="shrink-0 text-orange" />
+                          <LevelIcon level={e.level} size={16} className="shrink-0 text-orange" />
                           <div>
                             <p className="font-medium">{e.formationTitle}</p>
                             <p className="font-mono text-[10px] text-mutedfg">{formatRange(e.sessionStartDate, e.sessionEndDate)}</p>

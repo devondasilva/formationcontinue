@@ -6,7 +6,7 @@ import { SESSION_STATUS_LABEL, SESSION_STATUS_TONE, dateParts, formatRange } fro
 import PageHero from "@/components/PageHero";
 import Reveal from "@/components/Reveal";
 import { Badge, EmptyState, Meter } from "@/components/ui/primitives";
-import { DisciplineIcon } from "@/components/icons/DisciplineIcon";
+import { LevelIcon } from "@/components/icons/DisciplineIcon";
 
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = { title: "Calendrier des sessions" };
@@ -28,7 +28,7 @@ export default function SessionsPage() {
 
   return (
     <div>
-      <PageHero tag="Calendrier" title="Sessions" accent="à venir." text="Toutes les sessions programmées, toutes disciplines confondues. Cliquez pour vous inscrire." />
+      <PageHero tag="Calendrier" title="Sessions" accent="à venir." text="Toutes les sessions programmées, tous niveaux confondus. Cliquez pour vous inscrire." />
 
       <div className="mx-auto max-w-content px-5 pb-24 sm:px-6">
         {sessions.length === 0 && <EmptyState icon={CalendarX2} title="Aucune session" text="De nouvelles dates arrivent bientôt." />}
@@ -63,7 +63,7 @@ export default function SessionsPage() {
                           <div className="flex flex-wrap items-center gap-2">
                             {s.formation && (
                               <span className="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-orangeL text-orange">
-                                <DisciplineIcon discipline={s.formation.discipline} size={16} />
+                                <LevelIcon level={s.formation.level} size={16} />
                               </span>
                             )}
                             <p className="truncate font-semibold">{s.formationTitle}</p>
