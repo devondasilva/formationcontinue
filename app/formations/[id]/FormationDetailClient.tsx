@@ -3,17 +3,9 @@
 import { useCallback, useEffect, useState } from "react";
 import { Currency, Formation, PaymentMethod, Review, TrainingSession } from "@/lib/types";
 import { formatAmount } from "@/lib/currency";
+import { DISCIPLINE_LABEL, FORMAT_LABEL, LEVEL_LABEL } from "@/lib/labels";
 import CurrencySelector from "@/components/CurrencySelector";
 
-const DISCIPLINE_LABEL: Record<string, string> = {
-  "beach-tennis": "Beach Tennis", padel: "Padel", tennis: "Tennis", "mini-tennis": "Mini-Tennis",
-};
-const LEVEL_LABEL: Record<string, string> = {
-  initiateur: "Initiateur", animateur: "Animateur", entraineur: "Entraîneur", de: "Diplôme d'État",
-};
-const FORMAT_LABEL: Record<string, string> = {
-  presentiel: "Présentiel", distanciel: "Distanciel", hybride: "Hybride",
-};
 const PAYMENT_LABELS: Record<PaymentMethod, string> = {
   mtn_momo: "MTN Mobile Money", moov_money: "Moov Money", carte_bancaire: "Carte bancaire", virement: "Virement bancaire",
 };
@@ -119,7 +111,9 @@ export default function FormationDetailClient({ id }: { id: string }) {
       <div className="grid md:grid-cols-12 gap-12">
         <div className="md:col-span-7">
           <div className="flex items-center gap-2">
-            <span className="text-xs font-bold uppercase tracking-widest text-ink/60">{DISCIPLINE_LABEL[formation.discipline]}</span>
+            <span className="text-xs font-bold uppercase tracking-widest text-ink/60">
+              {formation.modules.map((m) => DISCIPLINE_LABEL[m.discipline]).join(" · ") || "Aucun module"}
+            </span>
             <span className="text-ink/20">·</span>
             <span className="text-xs font-bold uppercase tracking-widest text-orange">{LEVEL_LABEL[formation.level]}</span>
           </div>

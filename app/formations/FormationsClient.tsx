@@ -4,21 +4,8 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Discipline, Formation, Level } from "@/lib/types";
+import { DISCIPLINES, DISCIPLINE_LABEL, LEVELS, LEVEL_LABEL } from "@/lib/labels";
 import { formatAmount } from "@/lib/currency";
-
-const DISCIPLINE_LABEL: Record<Discipline, string> = {
-  "beach-tennis": "JES 1",
-  padel: "JES 2",
-  tennis: "Entraîneur",
-  "mini-tennis": "Diplôme d'État",
-};
-const LEVEL_LABEL: Record<Level, string> = {
-  initiateur: "Initiateur",
-  animateur: "Animateur",
-  entraineur: "Entraîneur",
-  de: "Diplôme d'État",
-};
-const LEVEL_ORDER: Level[] = ["initiateur", "animateur", "entraineur", "de"];
 
 export default function FormationsClient() {
   const params = useSearchParams();
@@ -36,9 +23,9 @@ export default function FormationsClient() {
 
   const filtered = useMemo(() => {
     return formations
-      .filter((f) => discipline === "tout" || f.discipline === discipline)
+      .filter((f) => discipline === "tout" || f.modules.some((m) => m.discipline === discipline))
       .filter((f) => level === "tout" || f.level === level)
-      .sort((a, b) => LEVEL_ORDER.indexOf(a.level) - LEVEL_ORDER.indexOf(b.level));
+      .sort((a, b) => LEVELS.indexOf(a.level) - LEVELS.indexOf(b.level));
   }, [formations, discipline, level]);
 
   return (
@@ -53,7 +40,7 @@ export default function FormationsClient() {
       </div>
 
       <div className="mt-8 flex flex-wrap gap-2">
-        {(["tout", "beach-tennis", "padel", "tennis", "mini-tennis"] as const).map((d) => (
+        {(["tout", ...DISCIPLINES] as const).map((d) => (
           <button
             key={d}
             onClick={() => setDiscipline(d)}
@@ -66,7 +53,7 @@ export default function FormationsClient() {
         ))}
       </div>
       <div className="mt-3 flex flex-wrap gap-2">
-        {(["tout", "initiateur", "animateur", "entraineur", "de"] as const).map((l) => (
+        {(["tout", ...LEVELS] as const).map((l) => (
           <button
             key={l}
             onClick={() => setLevel(l)}
@@ -87,7 +74,9 @@ export default function FormationsClient() {
             className="block rounded-card border border-ink/15 p-6 hover:border-orange transition-colors bg-white"
           >
             <div className="flex items-center gap-2">
-              <span className="text-xs font-bold uppercase tracking-widest text-ink/60">{DISCIPLINE_LABEL[f.discipline]}</span>
+              <span className="text-xs font-bold uppercase tracking-widest text-ink/60">
+                {f.modules.map((m) => DISCIPLINE_LABEL[m.discipline]).join(" · ") || "Aucun module"}
+              </span>
               <span className="text-ink/20">·</span>
               <span className="text-xs font-bold uppercase tracking-widest text-orange">{LEVEL_LABEL[f.level]}</span>
             </div>
