@@ -119,3 +119,17 @@ export interface ExchangeRates {
   fcfaPerUnit: { EUR: number; USD: number };
   updatedAt: string;
 }
+
+/** Fiche technique (PDF, Word, Excel, image…) attachée à une formation, téléchargeable par les candidats. */
+export interface FormationDocument {
+  id: string;
+  formationId: string;
+  title: string;
+  /** Module sportif concerné ; absent = document général du niveau. */
+  discipline?: Discipline;
+  fileName: string; // nom du fichier stocké dans data/uploads/docs
+  originalName: string;
+  mimeType: string;
+  size: number; // octets
+  createdAt: string;
+}

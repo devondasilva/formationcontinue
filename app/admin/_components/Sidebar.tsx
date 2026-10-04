@@ -128,9 +128,9 @@ export default function Sidebar({
       </div>
 
       {/* Navigation verticale */}
-      <nav className="flex-1 overflow-y-auto px-3 py-5 scrollbar-thin" aria-label="Back-office">
+      <nav className="flex-1 overflow-y-auto px-3 py-4 scrollbar-thin" aria-label="Back-office">
         {NAV.map((g) => (
-          <div key={g.group} className="mb-5">
+          <div key={g.group} className="mb-3">
             {!mini && <p className="mb-2 px-3 font-mono text-[10px] uppercase tracking-[0.18em] text-white/35">{g.group}</p>}
             {mini && <div className="mx-auto mb-2 h-px w-6 bg-white/10" />}
             <ul className="space-y-1">
@@ -144,7 +144,7 @@ export default function Sidebar({
                       onClick={onNavigate}
                       title={mini ? it.label : undefined}
                       aria-current={active ? "page" : undefined}
-                      className={`group relative flex items-center gap-3 rounded-xl py-2.5 text-sm font-medium transition-colors ${
+                      className={`group relative flex items-center gap-3 rounded-xl py-2 text-sm font-medium transition-colors ${
                         mini ? "justify-center px-0" : "px-3"
                       } ${active ? "text-white" : "text-white/60 hover:bg-white/[0.06] hover:text-white"}`}
                     >
@@ -187,7 +187,7 @@ export default function Sidebar({
       {/* Pied : profil + raccourcis */}
       <div className="border-t border-white/10 p-3">
         {!mini && adminName && (
-          <div className="mb-2 flex items-center gap-3 rounded-xl bg-white/[0.05] p-3">
+          <div className="mb-2 flex items-center gap-3 rounded-xl bg-white/[0.05] p-2.5">
             <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-orange text-sm font-semibold">{adminName.charAt(0).toUpperCase()}</span>
             <div className="min-w-0">
               <p className="truncate text-sm font-semibold">{adminName}</p>

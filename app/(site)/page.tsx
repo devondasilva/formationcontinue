@@ -40,11 +40,11 @@ export default function HomePage() {
         <div className="relative mx-auto grid max-w-content gap-12 px-5 pb-16 pt-6 sm:px-6 md:pt-10 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-6 lg:pt-8">
             <Reveal from="left">
-              <p className="tag-label">MADES · Formation continue &amp; apprentissage</p>
+              <p className="tag-label">MADES · Apprendre le métier &amp; apprentissage</p>
             </Reveal>
             <SplitTitle
-              text="Apprendre le métier,"
-              accent="le faire grandir."
+              text="Formation continue,"
+              accent="& apprentissage."
               className="h-display mt-5 text-[clamp(3.2rem,7.2vw,6rem)] text-ink"
               delay={0.1}
             />

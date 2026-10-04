@@ -217,6 +217,7 @@ export function IconAction({
   tone = "default",
   disabled,
   href,
+  newTab = false,
 }: {
   icon: LucideIcon;
   label: string;
@@ -224,6 +225,7 @@ export function IconAction({
   tone?: "default" | "danger" | "success" | "orange";
   disabled?: boolean;
   href?: string;
+  newTab?: boolean;
 }) {
   const tones = {
     default: "text-mutedfg hover:bg-ink hover:text-white",
@@ -234,7 +236,7 @@ export function IconAction({
   const cls = `inline-flex h-9 w-9 items-center justify-center rounded-xl border border-line bg-white transition-all duration-200 hover:-translate-y-0.5 hover:border-transparent disabled:pointer-events-none disabled:opacity-40 ${tones[tone]}`;
   if (href)
     return (
-      <a href={href} className={cls} title={label} aria-label={label}>
+      <a href={href} className={cls} title={label} aria-label={label} {...(newTab ? { target: "_blank", rel: "noopener noreferrer" } : {})}>
         <Icon size={16} />
       </a>
     );

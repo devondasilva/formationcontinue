@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import {
   getFormationById, updateFormation, deleteFormation,
-  getSessionsByFormation, getEnrolledCount, getReviewsByFormation, getFormationRating,
+  getSessionsByFormation, getEnrolledCount, getReviewsByFormation, getFormationRating, getDocumentsByFormation,
 } from "@/lib/db";
 import { requireAdmin } from "@/lib/auth";
 
@@ -22,7 +22,8 @@ export async function GET(
   }));
   const reviews = getReviewsByFormation(formation.id);
   const rating = getFormationRating(formation.id);
-  return NextResponse.json({ formation, sessions, reviews, rating });
+  const documents = getDocumentsByFormation(formation.id);
+  return NextResponse.json({ formation, sessions, reviews, rating, documents });
 }
 
 export async function PATCH(

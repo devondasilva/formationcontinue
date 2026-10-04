@@ -5,7 +5,7 @@ import { getFormations, getSessions, getEnrolledCount } from "@/lib/db";
 import { SESSION_STATUS_LABEL, SESSION_STATUS_TONE, dateParts, formatRange } from "@/lib/labels";
 import PageHero from "@/components/PageHero";
 import Reveal from "@/components/Reveal";
-import { Badge, EmptyState, Meter } from "@/components/ui/primitives";
+import { Badge, Meter } from "@/components/ui/primitives";
 import { LevelIcon } from "@/components/icons/DisciplineIcon";
 
 export const dynamic = "force-dynamic";
@@ -31,7 +31,15 @@ export default function SessionsPage() {
       <PageHero tag="Calendrier" title="Sessions" accent="à venir." text="Toutes les sessions programmées, tous niveaux confondus. Cliquez pour vous inscrire." />
 
       <div className="mx-auto max-w-content px-5 pb-24 sm:px-6">
-        {sessions.length === 0 && <EmptyState icon={CalendarX2} title="Aucune session" text="De nouvelles dates arrivent bientôt." />}
+        {sessions.length === 0 && (
+          <div className="card flex flex-col items-center px-6 py-14 text-center">
+            <span className="mb-4 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-orangeL text-orange">
+              <CalendarX2 size={26} strokeWidth={1.8} />
+            </span>
+            <p className="h-display text-2xl">Aucune session</p>
+            <p className="mt-2 max-w-sm text-sm text-mutedfg">De nouvelles dates arrivent bientôt.</p>
+          </div>
+        )}
 
         <div className="space-y-12">
           {Array.from(groups.entries()).map(([month, list]) => (

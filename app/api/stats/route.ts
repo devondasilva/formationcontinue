@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import {
   getLearners, getFormations, getSessions, getEnrollments, getReviews, getRates, getEnrolledCount,
+  getDocuments,
 } from "@/lib/db";
 import { requireAdmin } from "@/lib/auth";
 
@@ -19,6 +20,7 @@ export async function GET() {
   const enrollments = getEnrollments();
   const reviews = getReviews();
   const rates = getRates();
+  const documents = getDocuments();
 
   const totalRevenueFCFA = enrollments
     .filter((e) => e.status !== "annulee")
@@ -37,6 +39,7 @@ export async function GET() {
       reviews: reviews.length,
     },
     learners,
+    documents,
     formations,
     sessions,
     enrollments,

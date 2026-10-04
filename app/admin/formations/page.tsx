@@ -4,7 +4,7 @@ import { Suspense, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { BookOpen, Plus, Pencil, Copy, Trash2, CalendarPlus, LayoutGrid, Clock, Star, Eye, SearchX, Handshake } from "lucide-react";
+import { BookOpen, Plus, Pencil, Copy, Trash2, CalendarPlus, LayoutGrid, Clock, Star, Eye, SearchX, Handshake, FileText } from "lucide-react";
 import type { Level } from "@/lib/types";
 import { FORMAT_LABEL, LEVELS, LEVEL_LABEL, LEVEL_SHORT } from "@/lib/labels";
 import { formatAmount } from "@/lib/currency";
@@ -16,6 +16,7 @@ import { useAdmin } from "../_lib/AdminContext";
 import type { AdminFormation } from "../_lib/types";
 import { AdminHeader, ConfirmDialog, Drawer, FilterPills, IconAction, SearchBox } from "../_components/kit";
 import Switch from "../_components/Switch";
+import DocumentsManager from "../_components/DocumentsManager";
 import FormationForm, { draftFrom, draftToPayload, emptyDraft, type FormationDraft } from "../_components/FormationForm";
 
 export default function Page() {
@@ -36,6 +37,7 @@ function FormationsAdmin() {
   const [draft, setDraft] = useState<FormationDraft>(emptyDraft);
   const [saving, setSaving] = useState(false);
   const [toDelete, setToDelete] = useState<AdminFormation | null>(null);
+  const [docsFor, setDocsFor] = useState<AdminFormation | null>(null);
 
   useEffect(() => {
     if (params.get("new") === "1") {
@@ -79,6 +81,7 @@ function FormationsAdmin() {
   if (!stats) return <Skeleton className="h-96" />;
 
   const sessionsOf = (id: string) => stats.sessions.filter((s) => s.formationId === id);
+  const docsOf = (id: string) => (stats.documents ?? []).filter((d) => d.formationId === id).length;
   const ratingOf = (id: string) => {
     const r = stats.reviews.filter((x) => x.formationId === id);
     return r.length ? r.reduce((s, x) => s + x.rating, 0) / r.length : 0;
@@ -173,6 +176,14 @@ function FormationsAdmin() {
                     <span className="mx-1 h-6 w-px bg-line" />
                     <IconAction icon={Pencil} label="Modifier" onClick={() => openEdit(f)} />
                     <IconAction icon={CalendarPlus} label="Programmer une session" tone="orange" onClick={() => router.push(`/admin/sessions?new=1&formation=${f.id}`)} />
+                    <span className="relative">
+                      <IconAction icon={FileText} label="Fiches techniques" tone="orange" onClick={() => setDocsFor(f)} />
+                      {docsOf(f.id) > 0 && (
+                        <span className="pointer-events-none absolute -right-1.5 -top-1.5 min-w-[1.1rem] rounded-full bg-ink px-1 text-center font-mono text-[9px] leading-[1.1rem] text-white">
+                          {docsOf(f.id)}
+                        </span>
+                      )}
+                    </span>
                     <IconAction icon={Copy} label="Dupliquer" onClick={() => openNew(f)} />
                     <IconAction icon={Eye} label="Voir sur le site" href={`/formations/${f.id}`} />
                     <IconAction icon={Trash2} label="Supprimer" tone="danger" onClick={() => setToDelete(f)} />
@@ -203,10 +214,26 @@ function FormationsAdmin() {
         <FormationForm id="formation-form" draft={draft} onChange={setDraft} />
       </Drawer>
 
+      <Drawer
+        open={docsFor !== null}
+        onClose={() => setDocsFor(null)}
+        title="Fiches techniques"
+        icon={FileText}
+      >
+        {docsFor && (
+          <>
+            <p className="-mt-1 mb-5 text-sm text-mutedfg">
+              <span className="font-semibold text-ink">{docsFor.title}</span> — documents téléchargeables par les candidats sur la page de la formation.
+            </p>
+            <DocumentsManager formationId={docsFor.id} documents={(stats.documents ?? []).filter((d) => d.formationId === docsFor.id)} />
+          </>
+        )}
+      </Drawer>
+
       <ConfirmDialog
         open={!!toDelete}
         title="Supprimer la formation ?"
-        text={`« ${toDelete?.title} » et ses sessions sans inscrit seront supprimées définitivement. Pour la retirer temporairement du catalogue, utilisez plutôt l'interrupteur « publiée ».`}
+        text={`« ${toDelete?.title} », ses sessions sans inscrit et ses fiches techniques seront supprimées définitivement. Pour la retirer temporairement du catalogue, utilisez plutôt l'interrupteur « publiée ».`}
         onClose={() => setToDelete(null)}
         onConfirm={async () => { if (toDelete) await mutate(`/api/formations/${toDelete.id}`, { method: "DELETE" }, "Formation supprimée"); }}
       />

@@ -107,7 +107,7 @@ export default function Navbar() {
             </Link>
 
             {/* Liens desktop : pastille qui suit le survol */}
-            <nav className="hidden items-center md:flex" onMouseLeave={() => setHover(null)} aria-label="Navigation principale">
+            <nav className="hidden items-center lg:flex" onMouseLeave={() => setHover(null)} aria-label="Navigation principale">
               {LINKS.map((l) => {
                 const active = isActive(l.href);
                 return (
@@ -132,14 +132,14 @@ export default function Navbar() {
               {loaded && session && (
                 <button
                   onClick={logout}
-                  className="hidden h-10 w-10 items-center justify-center rounded-full border border-line text-mutedfg transition-colors hover:border-danger hover:text-danger md:inline-flex"
+                  className="hidden h-10 w-10 items-center justify-center rounded-full border border-line text-mutedfg transition-colors hover:border-danger hover:text-danger lg:inline-flex"
                   aria-label="Déconnexion"
                   title="Déconnexion"
                 >
                   <LogOut size={16} />
                 </button>
               )}
-              <div className="hidden md:block">
+              <div className="hidden lg:block">
                 <ArrowButton href={accountHref} size="sm" icon={session ? (session.role === "admin" ? LayoutDashboard : UserRound) : undefined}>
                   {loaded ? accountLabel : "Se connecter"}
                 </ArrowButton>
@@ -148,7 +148,7 @@ export default function Navbar() {
               {/* Bouton menu (mobile) : deux traits qui se croisent */}
               <button
                 onClick={() => setOpen((o) => !o)}
-                className="relative inline-flex h-11 w-11 items-center justify-center rounded-full border border-line bg-white md:hidden"
+                className="relative inline-flex h-11 w-11 items-center justify-center rounded-full border border-line bg-white lg:hidden"
                 aria-label={open ? "Fermer le menu" : "Ouvrir le menu"}
                 aria-expanded={open}
               >
@@ -171,15 +171,15 @@ export default function Navbar() {
             animate={{ clipPath: "circle(150% at calc(100% - 42px) 40px)" }}
             exit={{ clipPath: "circle(0% at calc(100% - 42px) 40px)" }}
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="court-lines fixed inset-0 z-40 flex flex-col bg-ink px-6 pb-10 pt-28 text-white md:hidden"
+            className="court-lines fixed inset-0 z-40 flex flex-col bg-ink px-6 pb-10 pt-28 text-white lg:hidden"
           >
             <nav className="flex flex-col" aria-label="Menu mobile">
               {[{ href: "/", label: "Accueil", icon: ArrowUpRight }, ...LINKS].map((l, i) => (
                 <motion.div key={l.href} initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 + i * 0.06, ease: [0.22, 1, 0.36, 1] }}>
-                  <Link href={l.href} className="group flex items-center justify-between border-b border-white/10 py-4">
+                  <Link href={l.href} className="group flex items-center justify-between border-b border-white/10 py-3">
                     <span className="flex items-center gap-4">
                       <span className="font-mono text-xs text-orange">0{i + 1}</span>
-                      <span className={`h-display text-5xl ${isActive(l.href) && l.href !== "/" ? "text-orange" : ""}`}>{l.label}</span>
+                      <span className={`h-display text-4xl ${isActive(l.href) && l.href !== "/" ? "text-orange" : ""}`}>{l.label}</span>
                     </span>
                     <span className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/10 transition-all duration-300 group-hover:-rotate-45 group-hover:bg-orange">
                       <ArrowUpRight size={20} className="rotate-45" />

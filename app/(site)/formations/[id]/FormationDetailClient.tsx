@@ -3,8 +3,8 @@
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowLeft, Clock, MonitorSmartphone, Award, ListChecks, Info, SearchX, Handshake, Check, Layers } from "lucide-react";
-import type { Discipline, Formation, Review, TrainingSession } from "@/lib/types";
+import { ArrowLeft, Clock, MonitorSmartphone, Award, ListChecks, Info, SearchX, Handshake, Check, Layers, FileDown } from "lucide-react";
+import type { Discipline, Formation, FormationDocument, Review, TrainingSession } from "@/lib/types";
 import { DISCIPLINE_DESC, DISCIPLINE_LABEL, FORMAT_LABEL, LEVELS, LEVEL_LABEL, LEVEL_SUB } from "@/lib/labels";
 import { formatAmount } from "@/lib/currency";
 import Reveal from "@/components/Reveal";
@@ -12,6 +12,7 @@ import ArrowButton from "@/components/ui/ArrowButton";
 import { EmptyState, Skeleton } from "@/components/ui/primitives";
 import { DisciplineIcon, LevelIcon, moduleIcon } from "@/components/icons/DisciplineIcon";
 import ModuleIcons from "@/components/ModuleIcons";
+import DocumentList from "@/components/DocumentList";
 import EnrollPanel from "./EnrollPanel";
 import ReviewsBlock, { Stars } from "./ReviewsBlock";
 
@@ -24,6 +25,7 @@ export default function FormationDetailClient({ id }: { id: string }) {
   const [rating, setRating] = useState({ average: 0, count: 0 });
   const [notFound, setNotFound] = useState(false);
   const [tab, setTab] = useState<Discipline | null>(null);
+  const [documents, setDocuments] = useState<FormationDocument[]>([]);
 
   const load = useCallback(() => {
     fetch(`/api/formations/${id}`).then(async (r) => {
@@ -36,6 +38,7 @@ export default function FormationDetailClient({ id }: { id: string }) {
       setSessions(d.sessions);
       setReviews(d.reviews);
       setRating(d.rating);
+      setDocuments(d.documents ?? []);
     });
   }, [id]);
 
@@ -109,6 +112,15 @@ export default function FormationDetailClient({ id }: { id: string }) {
             <div className="mt-4 flex items-center gap-3 text-sm text-white/60">
               <Stars rating={rating.average} dark />
               {rating.count > 0 ? `${rating.average.toLocaleString("fr-FR")}/5 · ${rating.count} avis` : "Nouvelle formation"}
+              {documents.length > 0 && (
+                <a
+                  href="#fiches"
+                  className="group ml-2 inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-orange"
+                >
+                  <FileDown size={14} className="text-orange transition-colors group-hover:text-white" />
+                  {documents.length} fiche{documents.length > 1 ? "s" : ""} technique{documents.length > 1 ? "s" : ""}
+                </a>
+              )}
             </div>
           </Reveal>
           <Reveal delay={200}>
@@ -251,6 +263,23 @@ export default function FormationDetailClient({ id }: { id: string }) {
                     </Reveal>
                   );
                 })}
+              </div>
+            </section>
+          )}
+
+          {documents.length > 0 && (
+            <section id="fiches" className="scroll-mt-28">
+              <Reveal>
+                <p className="tag-label">À télécharger</p>
+                <h2 className="h-display mt-3 flex items-center gap-3 text-4xl">
+                  <FileDown className="text-orange" size={30} /> Fiches techniques
+                </h2>
+                <p className="mt-2 text-sm text-mutedfg">
+                  {documents.length} document{documents.length > 1 ? "s" : ""} pour préparer votre formation. Touchez une fiche pour la télécharger.
+                </p>
+              </Reveal>
+              <div className="mt-6">
+                <DocumentList documents={documents} />
               </div>
             </section>
           )}

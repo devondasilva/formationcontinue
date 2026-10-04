@@ -1,71 +1,5 @@
 [
   {
-    "id": "frm-jes1",
-    "title": "JES Niveau 1",
-    "level": "jes1",
-    "format": "presentiel",
-    "description": "Premier niveau du cursus Jeune Éducateur de Sport : encadrer en toute sécurité une séance de découverte dans chacun des cinq sports de raquette, et animer un groupe de débutants.",
-    "durationHours": 160,
-    "prerequisites": "Aucun prérequis — ouvert à tous à partir de 16 ans.",
-    "certification": "Certificat JES Niveau 1 — MADES",
-    "modules": [
-      {
-        "discipline": "tennis",
-        "hours": 40,
-        "topics": [
-          "Règles, terrain et matériel",
-          "Prise de raquette et échanges de base",
-          "Séance découverte en groupe"
-        ]
-      },
-      {
-        "discipline": "beach-tennis",
-        "hours": 30,
-        "topics": [
-          "Spécificités du jeu sur sable",
-          "Sécurité et échauffement en plein air",
-          "Jeux d'initiation en double"
-        ]
-      },
-      {
-        "discipline": "padel",
-        "hours": 30,
-        "topics": [
-          "Règles et jeu avec les vitres",
-          "Service et premiers échanges",
-          "Animation d'un groupe débutant"
-        ]
-      },
-      {
-        "discipline": "mini-tennis",
-        "hours": 30,
-        "topics": [
-          "Matériel adapté aux 4–10 ans",
-          "Jeux moteurs et motricité",
-          "Gestion d'un groupe d'enfants"
-        ]
-      },
-      {
-        "discipline": "pickleball",
-        "hours": 30,
-        "topics": [
-          "Règles, zone de non-volée",
-          "Service à la cuillère et dinks",
-          "Séance découverte intergénérationnelle"
-        ]
-      }
-    ],
-    "syllabus": [
-      "Rôle et posture de l'éducateur sportif",
-      "Sécurité, premiers secours et prévention des blessures",
-      "Construire une séance type (échauffement, corps, retour au calme)"
-    ],
-    "priceFCFA": 300000,
-    "active": true,
-    "createdAt": "2026-01-01T00:00:00.000Z",
-    "partners": ""
-  },
-  {
     "id": "frm-jes2",
     "title": "JES Niveau 2",
     "level": "jes2",
@@ -77,7 +11,7 @@
     "modules": [
       {
         "discipline": "tennis",
-        "hours": 40,
+        "hours": 18,
         "topics": [
           "Coup droit, revers, volée : progression technique",
           "Cycle de 8 séances",
@@ -86,7 +20,7 @@
       },
       {
         "discipline": "beach-tennis",
-        "hours": 30,
+        "hours": 18,
         "topics": [
           "Smash et jeu au filet sur sable",
           "Tactique de double",
@@ -95,7 +29,7 @@
       },
       {
         "discipline": "padel",
-        "hours": 30,
+        "hours": 18,
         "topics": [
           "Sortie de vitre et lob",
           "Positionnement à deux",
@@ -104,7 +38,7 @@
       },
       {
         "discipline": "mini-tennis",
-        "hours": 30,
+        "hours": 18,
         "topics": [
           "Progression par couleurs de balles",
           "Pédagogie par le jeu",
@@ -113,7 +47,7 @@
       },
       {
         "discipline": "pickleball",
-        "hours": 30,
+        "hours": 18,
         "topics": [
           "Troisième frappe et jeu de transition",
           "Stratégie en double",
@@ -137,7 +71,7 @@
     "level": "entraineur",
     "format": "hybride",
     "description": "Entraîner des joueurs de niveau intermédiaire à confirmé dans les cinq sports de raquette, les préparer à la compétition et structurer une saison sportive.",
-    "durationHours": 180,
+    "durationHours": 160,
     "prerequisites": "Certificat JES Niveau 2 MADES ou diplôme fédéral équivalent.",
     "certification": "Certificat Entraîneur sports de raquette — MADES",
     "modules": [
@@ -192,9 +126,10 @@
       "Préparation mentale et récupération",
       "Nutrition et hygiène de vie du sportif"
     ],
-    "priceFCFA": 280000,
+    "priceFCFA": 300000,
     "active": true,
-    "createdAt": "2026-01-01T00:00:00.000Z"
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "partners": ""
   },
   {
     "id": "frm-de",
@@ -202,7 +137,7 @@
     "level": "de",
     "format": "hybride",
     "description": "Le plus haut niveau du parcours MADES : diriger une structure sportive, concevoir des projets de développement et former les éducateurs et entraîneurs de demain, en partenariat avec nos partenaires.",
-    "durationHours": 350,
+    "durationHours": 160,
     "prerequisites": "Certificat Entraîneur sports de raquette MADES et expérience d'encadrement d'au moins deux saisons.",
     "certification": "Diplôme d'État — délivré avec nos partenaires",
     "partners": "Formation délivrée en partenariat avec les partenaires institutionnels et fédéraux de MADES.",
@@ -258,8 +193,49 @@
       "Gestion de projet, budget et financements",
       "Évaluation finale et soutenance devant jury"
     ],
-    "priceFCFA": 950000,
+    "priceFCFA": 300000,
     "active": true,
     "createdAt": "2026-01-01T00:00:00.000Z"
+  },
+  {
+    "title": "JES Niveau 1",
+    "level": "jes1",
+    "format": "presentiel",
+    "modules": [
+      {
+        "discipline": "tennis",
+        "hours": 0,
+        "topics": []
+      },
+      {
+        "discipline": "beach-tennis",
+        "hours": 0,
+        "topics": []
+      },
+      {
+        "discipline": "padel",
+        "hours": 0,
+        "topics": []
+      },
+      {
+        "discipline": "mini-tennis",
+        "hours": 0,
+        "topics": []
+      },
+      {
+        "discipline": "pickleball",
+        "hours": 0,
+        "topics": []
+      }
+    ],
+    "description": "",
+    "durationHours": 160,
+    "prerequisites": "",
+    "certification": "Certificat JES Niveau 1 — MADES",
+    "syllabus": [],
+    "priceFCFA": 300000,
+    "active": true,
+    "id": "frm-mutnamwl-kpxjy",
+    "createdAt": "2026-10-04T09:55:26.709Z"
   }
 ]

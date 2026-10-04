@@ -2,6 +2,7 @@ import type {
   Enrollment,
   ExchangeRates,
   Formation,
+  FormationDocument,
   Learner,
   Review,
   TrainingSession,
@@ -32,4 +33,5 @@ export interface Stats {
   enrollments: AdminEnrollment[];
   reviews: AdminReview[];
   rates: AdminRates;
+  documents: FormationDocument[];
 }

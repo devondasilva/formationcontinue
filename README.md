@@ -143,6 +143,25 @@ branché : un vrai prestataire de paiement qui débiterait réellement une
 carte ou un compte Mobile Money — à intégrer dans
 `app/api/enrollments/route.ts` au moment de la création de l'inscription.
 
+## Fiches techniques téléchargeables
+
+Chaque formation peut recevoir des **fiches techniques** (PDF, Word, Excel,
+PowerPoint, images — 25 Mo max par fichier) :
+
+- **Admin** : `/admin/formations` → bouton « Fiches techniques » (icône
+  document orange, avec le nombre de fiches) sur la ligne de la formation.
+  Glisser-déposer plusieurs fichiers à la fois, renommer une fiche en cliquant
+  sur son titre, la rattacher à un module (tennis, padel…) ou à tout le
+  niveau, prévisualiser, supprimer.
+- **Candidats** : section « Fiches techniques » sur la page de la formation
+  (raccourci dans l'en-tête), téléchargement en un clic sous un nom de fichier
+  lisible, aperçu direct des PDF et images.
+
+Les fichiers sont stockés dans `data/uploads/docs/` et décrits dans
+`data/documents.json` ; supprimer une formation supprime aussi ses fiches.
+Pensez à sauvegarder le dossier `data/` avec le reste des données : il faut
+un hébergement avec disque persistant (VPS, serveur Node), pas Vercel.
+
 ## Identité visuelle et animations
 
 L'interface reprend l'identité de [mades-site.vercel.app](https://mades-site.vercel.app/fr) :

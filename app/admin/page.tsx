@@ -142,6 +142,7 @@ export default function AdminOverview() {
             </h1>
             <p className="mt-2 max-w-md text-sm text-white/60">Voici l&rsquo;activité de la plateforme. Chaque carte mène directement à l&rsquo;action.</p>
           </div>
+          <div className="flex flex-col items-start gap-2">
           {t.pendingEnrollments > 0 && (
             <Link
               href="/admin/inscriptions?statut=en_attente"
@@ -155,6 +156,7 @@ export default function AdminOverview() {
               <SlideArrow />
             </Link>
           )}
+          </div>
         </div>
       </motion.section>
 

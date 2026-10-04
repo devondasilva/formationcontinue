@@ -10,6 +10,7 @@ import {
   EnrollmentStatus,
   Review,
   ExchangeRates,
+  FormationDocument,
   Level,
 } from "./types";
 import { hashPassword, verifyPassword } from "./password";
@@ -149,6 +150,8 @@ export function deleteFormation(id: string): boolean {
   const next = formations.filter((f) => f.id !== id);
   if (next.length === formations.length) return false;
   writeJSON("formations.json", next);
+  // Les fiches techniques de la formation partent avec elle.
+  for (const d of getDocumentsByFormation(id)) deleteDocument(d.id);
   return true;
 }
 
@@ -294,4 +297,68 @@ export function getLearnerProgress(learnerId: string) {
   const levels = LEVEL_ORDER.filter((l) => done.some((e) => e.level === l));
   const totalHours = done.reduce((s, e) => s + e.durationHours, 0);
   return { levels, totalHours, completedCount: done.length };
+}
+
+// ---------- Utilitaire : lecture tolérante (fichier absent = liste vide) ----------
+function readOrEmpty<T>(file: string): T[] {
+  try {
+    return readJSON<T[]>(file);
+  } catch {
+    return [];
+  }
+}
+
+
+
+// ---------- Fiches techniques (documents téléchargeables) ----------
+export const DOCS_DIR = path.join(dataDir, "uploads", "docs");
+
+export function getDocuments(): FormationDocument[] {
+  return readOrEmpty<FormationDocument>("documents.json");
+}
+
+export function getDocumentById(id: string): FormationDocument | undefined {
+  return getDocuments().find((d) => d.id === id);
+}
+
+export function getDocumentsByFormation(formationId: string): FormationDocument[] {
+  return getDocuments()
+    .filter((d) => d.formationId === formationId)
+    .sort((a, b) => (a.createdAt > b.createdAt ? 1 : -1));
+}
+
+export function createDocument(doc: Omit<FormationDocument, "id" | "createdAt">): FormationDocument {
+  const list = getDocuments();
+  const full: FormationDocument = { ...doc, id: newId("doc"), createdAt: new Date().toISOString() };
+  list.push(full);
+  writeJSON("documents.json", list);
+  return full;
+}
+
+export function updateDocument(
+  id: string,
+  patch: Partial<Pick<FormationDocument, "title" | "discipline">>
+): FormationDocument | undefined {
+  const list = getDocuments();
+  const idx = list.findIndex((d) => d.id === id);
+  if (idx === -1) return undefined;
+  const next = { ...list[idx], ...patch };
+  if (!next.discipline) delete next.discipline;
+  list[idx] = next;
+  writeJSON("documents.json", list);
+  return list[idx];
+}
+
+/** Supprime la fiche et son fichier sur le disque. */
+export function deleteDocument(id: string): boolean {
+  const list = getDocuments();
+  const doc = list.find((d) => d.id === id);
+  if (!doc) return false;
+  writeJSON("documents.json", list.filter((d) => d.id !== id));
+  try {
+    fs.unlinkSync(path.join(DOCS_DIR, path.basename(doc.fileName)));
+  } catch {
+    /* fichier déjà absent */
+  }
+  return true;
 }
