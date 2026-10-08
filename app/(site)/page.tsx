@@ -44,7 +44,7 @@ export default function HomePage() {
             </Reveal>
             <SplitTitle
               text="Formation continue,"
-              accent="& apprentissage."
+              accent="& apprentissage des sports de raquette."
               className="h-display mt-5 text-[clamp(3.2rem,7.2vw,6rem)] text-ink"
               delay={0.1}
             />
