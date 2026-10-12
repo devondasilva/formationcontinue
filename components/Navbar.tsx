@@ -5,17 +5,18 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion, useScroll, useSpring } from "framer-motion";
-import { BookOpen, Route, CalendarDays, LogOut, ArrowUpRight, LayoutDashboard, UserRound } from "lucide-react";
+import { BookOpen, Route, CalendarDays, LogOut, ArrowUpRight, LayoutDashboard, UserRound, Building2 } from "lucide-react";
 import ArrowButton from "./ui/ArrowButton";
 
 const LINKS = [
   { href: "/formations", label: "Formations", icon: BookOpen },
   { href: "/parcours", label: "Parcours", icon: Route },
   { href: "/sessions", label: "Calendrier", icon: CalendarDays },
+  { href: "/clubs", label: "Clubs", icon: Building2 },
 ];
 
 interface Session {
-  role: "admin" | "learner";
+  role: "admin" | "learner" | "coach";
   id: string;
   name: string;
 }
@@ -69,8 +70,8 @@ export default function Navbar() {
     window.location.href = "/";
   }
 
-  const accountHref = session?.role === "admin" ? "/admin" : session?.role === "learner" ? "/dashboard" : "/login";
-  const accountLabel = session?.role === "admin" ? "Back-office" : session?.role === "learner" ? "Mon espace" : "Se connecter";
+  const accountHref = session?.role === "admin" ? "/admin" : session?.role === "learner" ? "/dashboard" : session?.role === "coach" ? "/coach" : "/login";
+  const accountLabel = session?.role === "admin" ? "Back-office" : session?.role === "learner" ? "Mon espace" : session?.role === "coach" ? "Espace coach" : "Se connecter";
   const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
 
   return (

@@ -77,3 +77,16 @@ export async function requireLearner(): Promise<SessionPayload | null> {
   if (!session || session.role !== "learner") return null;
   return session;
 }
+
+export async function requireCoach(): Promise<SessionPayload | null> {
+  const session = await getServerSession();
+  if (!session || session.role !== "coach") return null;
+  return session;
+}
+
+/** Admin ou coach (routes partagées : matériel, photos, inventaires, carnet d'alternance). */
+export async function requireStaff(): Promise<SessionPayload | null> {
+  const session = await getServerSession();
+  if (!session || (session.role !== "admin" && session.role !== "coach")) return null;
+  return session;
+}

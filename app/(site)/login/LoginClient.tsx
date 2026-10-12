@@ -3,14 +3,14 @@
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { GraduationCap, ShieldCheck, Eye, EyeOff, Award, Clock, CalendarCheck } from "lucide-react";
+import { GraduationCap, ShieldCheck, Eye, EyeOff, Award, Clock, CalendarCheck, Contact } from "lucide-react";
 import ArrowButton from "@/components/ui/ArrowButton";
 import { Field } from "@/components/ui/primitives";
 import Marquee from "@/components/Marquee";
 import { DisciplineIcon } from "@/components/icons/DisciplineIcon";
 import { DISCIPLINES, DISCIPLINE_LABEL } from "@/lib/labels";
 
-type Mode = "learner" | "admin";
+type Mode = "learner" | "coach" | "admin";
 
 const PERKS = [
   { icon: CalendarCheck, text: "Vos inscriptions et sessions à venir" },
@@ -23,7 +23,8 @@ export default function LoginClient() {
   const params = useSearchParams();
   const next = params.get("next");
 
-  const [mode, setMode] = useState<Mode>(next?.startsWith("/admin") ? "admin" : "learner");
+  const [mode, setMode] = useState<Mode>(next?.startsWith("/admin") ? "admin" : next?.startsWith("/coach") ? "coach" : "learner");
+  const [coachEmail, setCoachEmail] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -107,11 +108,12 @@ export default function LoginClient() {
           <p className="tag-label">Connexion</p>
           <h2 className="h-display mt-3 text-5xl">Accéder à mon espace</h2>
 
-          <div className="relative mt-8 grid grid-cols-2 rounded-full bg-muted p-1" role="tablist">
+          <div className="relative mt-8 grid grid-cols-3 rounded-full bg-muted p-1" role="tablist">
             {(
               [
                 { id: "learner", label: "Apprenant", icon: GraduationCap },
-                { id: "admin", label: "Administration", icon: ShieldCheck },
+                { id: "coach", label: "Coach", icon: Contact },
+                { id: "admin", label: "Admin", icon: ShieldCheck },
               ] as const
             ).map((t) => (
               <button
@@ -122,7 +124,7 @@ export default function LoginClient() {
                   setMode(t.id);
                   setError(null);
                 }}
-                className={`relative flex items-center justify-center gap-2 rounded-full py-3 text-sm font-semibold transition-colors ${
+                className={`relative flex items-center justify-center gap-1.5 rounded-full py-3 text-xs font-semibold sm:gap-2 sm:text-sm transition-colors ${
                   mode === t.id ? "text-white" : "text-mutedfg hover:text-ink"
                 }`}
               >
@@ -160,6 +162,48 @@ export default function LoginClient() {
                 {error && <p className="rounded-xl bg-danger/10 px-4 py-3 text-sm text-danger">{error}</p>}
                 <ArrowButton type="submit" full size="lg" loading={loading}>
                   Accéder à mon espace
+                </ArrowButton>
+              </motion.form>
+            ) : mode === "coach" ? (
+              <motion.form
+                key="coach"
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.25 }}
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  post("/api/auth/coach-login", { email: coachEmail, password }, "/coach");
+                }}
+                className="mt-8 space-y-4"
+              >
+                <p className="text-sm text-mutedfg">Coachs des clubs partenaires : matériel, inventaires et suivi des alternants. Identifiants fournis par MADES.</p>
+                <Field label="Email">
+                  <input required type="email" autoComplete="username" className="field" value={coachEmail} onChange={(e) => setCoachEmail(e.target.value)} />
+                </Field>
+                <Field label="Mot de passe">
+                  <span className="relative block">
+                    <input
+                      required
+                      type={show ? "text" : "password"}
+                      autoComplete="current-password"
+                      className="field pr-12"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShow((s) => !s)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 rounded-lg p-1.5 text-mutedfg hover:text-ink"
+                      aria-label={show ? "Masquer le mot de passe" : "Afficher le mot de passe"}
+                    >
+                      {show ? <EyeOff size={18} /> : <Eye size={18} />}
+                    </button>
+                  </span>
+                </Field>
+                {error && <p className="rounded-xl bg-danger/10 px-4 py-3 text-sm text-danger">{error}</p>}
+                <ArrowButton type="submit" full size="lg" loading={loading}>
+                  Accéder à mon espace coach
                 </ArrowButton>
               </motion.form>
             ) : (

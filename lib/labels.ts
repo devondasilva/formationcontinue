@@ -1,4 +1,15 @@
 import type {
+  ClubStatus,
+  EquipmentCategory,
+  EquipmentCondition,
+  EquipmentOrigin,
+  EquipmentStatus,
+  InventoryStatus,
+  LogStatus,
+  MovementType,
+  PhotoKind,
+  PlacementResult,
+  PlacementStatus,
   Discipline,
   EnrollmentStatus,
   Format,
@@ -123,4 +134,165 @@ export function formatRange(start: string, end: string): string {
 export function dateParts(iso: string): { day: string; month: string; year: string } {
   const [y, m, d] = iso.split("-").map(Number);
   return { day: String(d).padStart(2, "0"), month: MONTHS[(m || 1) - 1], year: String(y) };
+}
+
+
+/* ================================================================== */
+/*  Réseau : clubs, matériel, inventaires, alternance                 */
+/* ================================================================== */
+
+/** Délai au-delà duquel un inventaire est considéré en retard (jours). */
+export const INVENTORY_MAX_AGE_DAYS = 90;
+
+export const CLUB_STATUS_LABEL: Record<ClubStatus, string> = {
+  actif: "Partenaire actif",
+  en_convention: "Convention en cours",
+  suspendu: "Suspendu",
+};
+export const CLUB_STATUS_TONE: Record<ClubStatus, Tone> = { actif: "success", en_convention: "orange", suspendu: "muted" };
+
+export const EQUIPMENT_CATEGORIES: EquipmentCategory[] = [
+  "raquettes",
+  "balles",
+  "filets_poteaux",
+  "marquage",
+  "coordination",
+  "lance_balles",
+  "mini_tennis",
+  "rangement",
+  "securite",
+  "numerique",
+  "autre",
+];
+
+export const CATEGORY_LABEL: Record<EquipmentCategory, string> = {
+  raquettes: "Raquettes",
+  balles: "Balles",
+  filets_poteaux: "Filets & poteaux",
+  marquage: "Plots & marquage",
+  coordination: "Coordination & motricité",
+  lance_balles: "Lance-balles",
+  mini_tennis: "Kit mini-tennis",
+  rangement: "Chariots & rangement",
+  securite: "Sécurité & secours",
+  numerique: "Numérique (tablette, caméra)",
+  autre: "Autre",
+};
+
+/** Unité suggérée selon la catégorie. */
+export const CATEGORY_UNIT: Record<EquipmentCategory, string> = {
+  raquettes: "pièce",
+  balles: "carton",
+  filets_poteaux: "lot",
+  marquage: "lot",
+  coordination: "lot",
+  lance_balles: "pièce",
+  mini_tennis: "kit",
+  rangement: "pièce",
+  securite: "trousse",
+  numerique: "pièce",
+  autre: "pièce",
+};
+
+export const EQUIPMENT_CONDITIONS: EquipmentCondition[] = ["neuf", "bon", "use", "a_reparer", "hors_service"];
+export const CONDITION_LABEL: Record<EquipmentCondition, string> = {
+  neuf: "Neuf",
+  bon: "Bon état",
+  use: "Usé",
+  a_reparer: "À réparer",
+  hors_service: "Hors service",
+};
+export const CONDITION_TONE: Record<EquipmentCondition, Tone> = {
+  neuf: "success",
+  bon: "success",
+  use: "orange",
+  a_reparer: "danger",
+  hors_service: "danger",
+};
+
+export const EQUIPMENT_STATUS_LABEL: Record<EquipmentStatus, string> = {
+  en_service: "En service",
+  en_reparation: "En réparation",
+  perdu: "Perdu / volé",
+  reforme: "Réformé",
+};
+export const EQUIPMENT_STATUS_TONE: Record<EquipmentStatus, Tone> = {
+  en_service: "ink",
+  en_reparation: "orange",
+  perdu: "danger",
+  reforme: "muted",
+};
+
+export const ORIGIN_LABEL: Record<EquipmentOrigin, string> = {
+  dotation_mades: "Dotation MADES",
+  club: "Matériel du club",
+  don_partenaire: "Don d'un partenaire",
+};
+
+export const MOVEMENT_LABEL: Record<MovementType, string> = {
+  dotation: "Dotation",
+  declaration: "Déclaration",
+  modification: "Modification",
+  transfert: "Transfert",
+  responsable: "Changement de responsable",
+  inventaire: "Inventaire",
+  etat: "Changement d'état",
+  incident: "Incident (casse, perte, vol)",
+  reparation: "Réparation",
+  reforme: "Réforme",
+  photo: "Photo ajoutée",
+};
+
+export const INVENTORY_STATUS_LABEL: Record<InventoryStatus, string> = {
+  soumis: "À valider",
+  valide: "Validé",
+  a_revoir: "À revoir",
+};
+export const INVENTORY_STATUS_TONE: Record<InventoryStatus, Tone> = { soumis: "orange", valide: "success", a_revoir: "danger" };
+
+export const PHOTO_KIND_LABEL: Record<PhotoKind, string> = {
+  etat: "État",
+  dotation: "Réception / dotation",
+  inventaire: "Inventaire",
+  incident: "Incident",
+  reparation: "Réparation",
+};
+
+export const PLACEMENT_STATUS_LABEL: Record<PlacementStatus, string> = {
+  planifie: "Planifiée",
+  en_cours: "En cours",
+  termine: "Terminée",
+  interrompu: "Interrompue",
+};
+export const PLACEMENT_STATUS_TONE: Record<PlacementStatus, Tone> = {
+  planifie: "muted",
+  en_cours: "orange",
+  termine: "success",
+  interrompu: "danger",
+};
+
+export const PLACEMENT_RESULT_LABEL: Record<PlacementResult, string> = {
+  acquis: "Compétences acquises",
+  en_cours_acquisition: "En cours d'acquisition",
+  non_acquis: "Non acquises",
+};
+export const PLACEMENT_RESULT_TONE: Record<PlacementResult, Tone> = {
+  acquis: "success",
+  en_cours_acquisition: "orange",
+  non_acquis: "danger",
+};
+
+export const LOG_STATUS_LABEL: Record<LogStatus, string> = { a_valider: "À valider", valide: "Validée", refuse: "Refusée" };
+export const LOG_STATUS_TONE: Record<LogStatus, Tone> = { a_valider: "orange", valide: "success", refuse: "danger" };
+
+/** Nombre de jours écoulés depuis une date ISO (null si absente). */
+export function daysSince(iso?: string | null): number | null {
+  if (!iso) return null;
+  const t = new Date(iso.length <= 10 ? `${iso}T12:00:00` : iso).getTime();
+  if (Number.isNaN(t)) return null;
+  return Math.floor((Date.now() - t) / 86_400_000);
+}
+
+export function formatFCFA(n: number): string {
+  return `${Math.round(n).toLocaleString("fr-FR").replace(/\u202f/g, " ")} FCFA`;
 }

@@ -1,4 +1,12 @@
 import type {
+  AlternanceLog,
+  EquipmentItem,
+  EquipmentMovement,
+  EquipmentPhoto,
+  Inventory,
+  PartnerClub,
+  Placement,
+  PublicCoach,
   Enrollment,
   ExchangeRates,
   Formation,
@@ -34,4 +42,47 @@ export interface Stats {
   reviews: AdminReview[];
   rates: AdminRates;
   documents: FormationDocument[];
+  network: NetworkData;
+}
+
+export type AdminPlacement = Placement & { hours: { validated: number; pending: number } };
+
+export interface ClubSummary {
+  clubId: string;
+  items: number;
+  units: number;
+  valueFCFA: number;
+  toRepair: number;
+  outOfService: number;
+  unassigned: number;
+  coaches: number;
+  activeAlternants: number;
+  lastInventoryDate: string | null;
+  inventoryOverdue: boolean;
+}
+
+export interface NetworkData {
+  clubs: PartnerClub[];
+  coaches: PublicCoach[];
+  equipment: EquipmentItem[];
+  movements: EquipmentMovement[];
+  inventories: Inventory[];
+  photos: EquipmentPhoto[];
+  placements: AdminPlacement[];
+  logs: AlternanceLog[];
+  summaries: ClubSummary[];
+  totals: {
+    clubs: number;
+    coaches: number;
+    items: number;
+    units: number;
+    valueFCFA: number;
+    toRepair: number;
+    outOfService: number;
+    unassigned: number;
+    inventoriesToReview: number;
+    clubsInventoryOverdue: number;
+    activePlacements: number;
+    logsToValidate: number;
+  };
 }

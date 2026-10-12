@@ -32,6 +32,7 @@ import ArrowButton, { SlideArrow } from "@/components/ui/ArrowButton";
 import { Badge, EmptyState, Skeleton } from "@/components/ui/primitives";
 import { LevelIcon } from "@/components/icons/DisciplineIcon";
 import ModuleIcons from "@/components/ModuleIcons";
+import LearnerAlternance, { type LearnerPlacement } from "@/components/network/LearnerAlternance";
 
 interface Progress {
   levels: Level[];
@@ -58,18 +59,20 @@ export default function DashboardPage() {
   const [enrollments, setEnrollments] = useState<Enrollment[]>([]);
   const [progress, setProgress] = useState<Progress | null>(null);
   const [formations, setFormations] = useState<Formation[]>([]);
+  const [placements, setPlacements] = useState<LearnerPlacement[]>([]);
   const [loading, setLoading] = useState(true);
 
+  async function reload() {
+    const d = await fetch("/api/learners/me", { cache: "no-store" }).then((r) => (r.ok ? r.json() : null));
+    if (!d) return;
+    setLearner(d.learner);
+    setEnrollments(d.enrollments ?? []);
+    setProgress(d.progress ?? null);
+    setPlacements(d.placements ?? []);
+  }
+
   useEffect(() => {
-    fetch("/api/learners/me")
-      .then((r) => (r.ok ? r.json() : null))
-      .then((d) => {
-        if (!d) return;
-        setLearner(d.learner);
-        setEnrollments(d.enrollments ?? []);
-        setProgress(d.progress ?? null);
-      })
-      .finally(() => setLoading(false));
+    reload().finally(() => setLoading(false));
     fetch("/api/formations").then((r) => r.json()).then((d) => setFormations((d.formations ?? []).filter((f: Formation) => f.active)));
   }, []);
 
@@ -219,6 +222,9 @@ export default function DashboardPage() {
           </motion.div>
         ))}
       </div>
+
+      {/* Alternance en club partenaire */}
+      <LearnerAlternance placements={placements} reload={reload} />
 
       {/* Progression par niveau */}
       <section className="mt-12">

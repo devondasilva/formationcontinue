@@ -32,11 +32,13 @@ npm run start
 
 ## Connexion et rôles
 
-Deux espaces, accessibles depuis `/login` :
+Trois espaces, accessibles depuis `/login` :
 
 - **Apprenant** — nom, email et téléphone ; le compte se crée automatiquement
   à la première connexion. Donne accès à `/dashboard` : inscriptions,
   heures de formation continue cumulées, certificats à télécharger.
+- **Coach** (club partenaire) — email et mot de passe créés par l'administration,
+  donne accès à `/coach` : matériel, inventaires, photos de preuve, alternants.
 - **Administrateur** — identifiant et mot de passe, donne accès à `/admin`.
 
 Compte administrateur par défaut :
@@ -55,6 +57,74 @@ npm run create-admin -- <identifiant> <nouveau-mot-de-passe> "Nom affiché"
 Les sessions sont des cookies signés (HMAC, Web Crypto) et les mots de passe
 sont hachés avec sel (scrypt). Définissez la variable d'environnement
 `AUTH_SECRET` avant un déploiement réel.
+
+## Réseau des clubs partenaires, matériel et alternance
+
+### Les acteurs
+
+| Rôle | Ce qu'il fait |
+|---|---|
+| **Administration** (`/admin`) | Crée les clubs et les coachs, dote les clubs en matériel, transfère, réforme, valide les inventaires, place les apprenants en alternance, a la vue globale. |
+| **Coach responsable matériel** | Gère *tout* le parc de son club : déclare, met à jour l'état, réattribue entre coachs du club, fait l'inventaire complet. |
+| **Coach** | Gère le matériel *dont il est responsable* et le voit en lecture seule pour le reste du club. |
+| **Coach tuteur** | Suit ses alternants : valide ou refuse les séances déclarées, en ajoute, rédige l'évaluation de fin d'alternance. |
+| **Apprenant** | Voit son club, son tuteur (téléphone, email), ses heures ; déclare ses séances dans son carnet de bord. |
+
+### Matériel
+
+- Chaque article a un **code unique** (`MFC-COT-0001`), une catégorie, une quantité, un état
+  (neuf → hors service), un statut (en service, en réparation, perdu, réformé), une origine
+  (dotation MADES, matériel du club, don), une valeur et un lieu de stockage.
+- **Traçabilité complète** : chaque dotation, déclaration, changement d'état, transfert,
+  changement de responsable, incident, réparation, inventaire et réforme est enregistré
+  automatiquement dans un journal (qui, quand, avant / après).
+- **Incidents** (casse, perte, vol) déclarés avec photos ; une perte diminue la quantité.
+- Un coach ne peut pas modifier une quantité à la main : elle change seulement par
+  **inventaire** ou **incident**. La réforme, la suppression et les transferts entre clubs
+  sont réservés à l'administration.
+- **Export CSV** (Excel) de tout le parc filtré, avec club, responsable et valeur.
+
+### Photos de preuve
+
+Coachs et administration peuvent photographier le matériel (bouton « Photo » : ouvre
+l'appareil photo du téléphone). Les photos sont compressées dans le navigateur
+(~1600 px), vérifiées côté serveur (vraie image JPG / PNG / WebP / HEIC, 12 Mo max),
+rangées dans `data/uploads/photos/` et servies uniquement aux personnes autorisées
+(administration et coachs du même club). Elles sont rattachées à l'article, à l'incident
+ou à la ligne d'inventaire.
+
+### Inventaires
+
+Le coach compte chaque article, note l'état, explique les écarts et prend des photos.
+Les quantités du parc sont mises à jour aussitôt. **Sans écart, l'inventaire est validé
+d'office ; avec écart, il part en validation** (« Valider » ou « À revoir » côté admin).
+Un club non inventorié depuis 90 jours est signalé en retard.
+
+### Alternance
+
+Une alternance = un apprenant, un club, un tuteur, des dates, un rythme, un volume
+d'heures et des objectifs. Le carnet de bord cumule les heures **validées** ; le tuteur
+termine par une évaluation (acquis / en cours d'acquisition / non acquis).
+
+### Démonstration
+
+```bash
+npm run seed:reseau            # installe 4 clubs, 6 coachs, 19 articles, photos, inventaires, alternances
+npm run seed:reseau -- --clean # retire uniquement les données de démo (identifiants « demo-… »)
+```
+
+Coachs de démo (onglet **Coach**, mot de passe `Coach2026!`) : `rodrigue@demo.mades.bj`
+(Tennis Club de Cotonou, responsable matériel et tuteur), `mireille@demo.mades.bj`,
+`fabrice@demo.mades.bj`, `carine@demo.mades.bj`. Apprenante de démo : Aïcha Tossou,
+`aicha.tossou@demo.mades.bj`.
+
+En production, l'administration crée chaque coach dans **Back-office › Coachs** : un mot
+de passe provisoire est affiché une seule fois (avec un message prêt à envoyer) et le
+coach doit le changer à sa première connexion.
+
+> Hébergement : les données et les photos sont des fichiers dans `data/`. Il faut donc
+> un serveur avec disque persistant (VPS, Railway, Render…). Sur un hébergement sans
+> disque (Vercel), branchez une base de données et un stockage d'objets.
 
 ## Le parcours de certification
 

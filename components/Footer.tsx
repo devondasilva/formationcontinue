@@ -14,6 +14,7 @@ const COLS = [
       { label: "Catalogue des formations", href: "/formations" },
       { label: "Parcours de certification", href: "/parcours" },
       { label: "Calendrier des sessions", href: "/sessions" },
+      { label: "Clubs partenaires", href: "/clubs" },
     ],
   },
   {
@@ -21,6 +22,7 @@ const COLS = [
     links: [
       { label: "Se connecter", href: "/login" },
       { label: "Mon espace apprenant", href: "/dashboard" },
+      { label: "Espace coach", href: "/login?next=/coach" },
       { label: "Back-office", href: "/login?next=/admin" },
     ],
   },

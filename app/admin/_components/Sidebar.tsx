@@ -19,6 +19,11 @@ import {
   ChevronsLeft,
   ChevronRight,
   Plus,
+  Building2,
+  Contact,
+  Boxes,
+  ClipboardList,
+  Handshake,
   type LucideIcon,
 } from "lucide-react";
 import { useAdmin } from "../_lib/AdminContext";
@@ -47,6 +52,16 @@ export const NAV: { group: string; items: NavItem[] }[] = [
       { href: "/admin/apprenants", label: "Apprenants", icon: Users },
       { href: "/admin/certificats", label: "Certificats", icon: Award },
       { href: "/admin/avis", label: "Avis", icon: Star },
+    ],
+  },
+  {
+    group: "Réseau",
+    items: [
+      { href: "/admin/clubs", label: "Clubs partenaires", icon: Building2 },
+      { href: "/admin/coachs", label: "Coachs", icon: Contact },
+      { href: "/admin/materiel", label: "Matériel", icon: Boxes, badge: (s) => s.network.totals.toRepair },
+      { href: "/admin/inventaires", label: "Inventaires", icon: ClipboardList, badge: (s) => s.network.totals.inventoriesToReview },
+      { href: "/admin/alternance", label: "Alternance", icon: Handshake, badge: (s) => s.network.totals.logsToValidate },
     ],
   },
   {

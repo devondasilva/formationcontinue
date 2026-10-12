@@ -20,6 +20,15 @@ import {
   MapPin,
   Inbox,
   BadgeCheck,
+  Building2,
+  Contact,
+  Boxes,
+  ClipboardList,
+  Handshake,
+  Wrench,
+  UserX,
+  AlertTriangle,
+  NotebookPen,
   type LucideIcon,
 } from "lucide-react";
 import { formatAmount } from "@/lib/currency";
@@ -31,6 +40,8 @@ import {
   LEVEL_LABEL,
   dateParts,
   formatRange,
+  formatDate,
+  formatFCFA,
 } from "@/lib/labels";
 import Counter from "@/components/Counter";
 import { Badge, Meter, Skeleton } from "@/components/ui/primitives";
@@ -88,6 +99,7 @@ export default function AdminOverview() {
   }
 
   const t = stats.totals;
+  const n = stats.network;
   const maxMonth = Math.max(1, ...data.months.map((m) => m.total));
   const maxDisc = Math.max(1, ...data.byDiscipline.map((x) => x.n));
   const hour = new Date().getHours();
@@ -114,8 +126,22 @@ export default function AdminOverview() {
     { icon: Users, label: "Apprenants", count: `${t.learners}`, href: "/admin/apprenants" },
     { icon: Award, label: "Certificats", count: `${t.certificatesIssued}`, href: "/admin/certificats" },
     { icon: Star, label: "Avis", count: data.avgRating ? `${data.avgRating.toFixed(1)}★` : `${t.reviews}`, href: "/admin/avis" },
+    { icon: Building2, label: "Clubs partenaires", count: `${n.totals.clubs}`, href: "/admin/clubs" },
+    { icon: Contact, label: "Coachs", count: `${n.totals.coaches}`, href: "/admin/coachs" },
+    { icon: Boxes, label: "Matériel", count: `${n.totals.units} u.`, href: "/admin/materiel" },
+    { icon: ClipboardList, label: "Inventaires", count: `${n.inventories.length}`, href: "/admin/inventaires" },
+    { icon: Handshake, label: "Alternance", count: `${n.totals.activePlacements} en cours`, href: "/admin/alternance" },
     { icon: Coins, label: "Taux de change", count: "€ $", href: "/admin/taux" },
   ];
+
+  const ALERTS: { icon: LucideIcon; text: string; href: string; tone: "danger" | "orange" }[] = [
+    n.totals.inventoriesToReview > 0 && { icon: ClipboardList, text: `${n.totals.inventoriesToReview} inventaire${n.totals.inventoriesToReview > 1 ? "s" : ""} avec écarts à valider`, href: "/admin/inventaires", tone: "orange" as const },
+    n.totals.logsToValidate > 0 && { icon: NotebookPen, text: `${n.totals.logsToValidate} séance${n.totals.logsToValidate > 1 ? "s" : ""} d'alternance à valider`, href: "/admin/alternance", tone: "orange" as const },
+    n.totals.toRepair > 0 && { icon: Wrench, text: `${n.totals.toRepair} matériel${n.totals.toRepair > 1 ? "s" : ""} à réparer`, href: "/admin/materiel?etat=reparer", tone: "danger" as const },
+    n.totals.outOfService > 0 && { icon: AlertTriangle, text: `${n.totals.outOfService} matériel${n.totals.outOfService > 1 ? "s" : ""} hors service ou perdu${n.totals.outOfService > 1 ? "s" : ""}`, href: "/admin/materiel?etat=hs", tone: "danger" as const },
+    n.totals.unassigned > 0 && { icon: UserX, text: `${n.totals.unassigned} matériel${n.totals.unassigned > 1 ? "s" : ""} sans coach responsable`, href: "/admin/materiel?etat=sans", tone: "danger" as const },
+    n.totals.clubsInventoryOverdue > 0 && { icon: ClipboardList, text: `${n.totals.clubsInventoryOverdue} club${n.totals.clubsInventoryOverdue > 1 ? "s" : ""} à inventorier`, href: "/admin/inventaires", tone: "danger" as const },
+  ].filter(Boolean) as { icon: LucideIcon; text: string; href: string; tone: "danger" | "orange" }[];
 
   return (
     <div className="space-y-6">
@@ -153,6 +179,15 @@ export default function AdminOverview() {
                 <BellRing size={17} />
               </span>
               {t.pendingEnrollments} inscription{t.pendingEnrollments > 1 ? "s" : ""} à confirmer
+              <SlideArrow />
+            </Link>
+          )}
+          {n.totals.inventoriesToReview + n.totals.logsToValidate > 0 && (
+            <Link href={n.totals.inventoriesToReview ? "/admin/inventaires" : "/admin/alternance"} className="group inline-flex items-center gap-3 rounded-full bg-white/10 py-2 pl-2 pr-5 text-sm font-semibold backdrop-blur transition-colors hover:bg-white/20">
+              <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white text-ink">
+                <Handshake size={17} />
+              </span>
+              {n.totals.inventoriesToReview + n.totals.logsToValidate} validation{n.totals.inventoriesToReview + n.totals.logsToValidate > 1 ? "s" : ""} réseau en attente
               <SlideArrow />
             </Link>
           )}
@@ -363,10 +398,119 @@ export default function AdminOverview() {
         </Panel>
       </div>
 
+      {/* ===== Réseau des clubs ===== */}
+      <section className="grid gap-4 xl:grid-cols-5">
+        <Panel
+          title="Réseau des clubs partenaires"
+          icon={Building2}
+          className="xl:col-span-3"
+          action={
+            <Link href="/admin/materiel" className="group inline-flex items-center gap-1.5 text-xs font-semibold text-orange">
+              Tout le matériel <SlideArrow size={14} />
+            </Link>
+          }
+        >
+          <div className="mb-5 grid grid-cols-2 gap-2 sm:grid-cols-4">
+            {[
+              { l: "Clubs", v: n.totals.clubs, h: "/admin/clubs" },
+              { l: "Coachs", v: n.totals.coaches, h: "/admin/coachs" },
+              { l: "Unités de matériel", v: n.totals.units, h: "/admin/materiel" },
+              { l: "Alternants en club", v: n.totals.activePlacements, h: "/admin/alternance" },
+            ].map((k) => (
+              <Link key={k.l} href={k.h} className="rounded-2xl bg-muted/70 p-3 transition-colors hover:bg-muted">
+                <p className="h-display text-3xl leading-none">
+                  <Counter value={k.v} />
+                </p>
+                <p className="mt-1 font-mono text-[10px] uppercase tracking-wider text-mutedfg">{k.l}</p>
+              </Link>
+            ))}
+          </div>
+          {n.clubs.length === 0 ? (
+            <EmptyMini icon={Building2} text="Aucun club partenaire pour l'instant." href="/admin/clubs" cta="Ajouter un club" />
+          ) : (
+            <div className="-mx-1 overflow-x-auto scrollbar-thin">
+              <table className="w-full min-w-[640px] text-sm">
+                <thead className="text-left font-mono text-[10px] uppercase tracking-wider text-mutedfg">
+                  <tr>
+                    <th className="px-1 pb-2">Club</th>
+                    <th className="px-1 pb-2">Responsable matériel</th>
+                    <th className="px-1 pb-2 text-right">Unités</th>
+                    <th className="px-1 pb-2 text-right">Valeur</th>
+                    <th className="px-1 pb-2 text-right">Alternants</th>
+                    <th className="px-1 pb-2 text-right">Inventaire</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-line">
+                  {n.clubs.map((c) => {
+                    const s = n.summaries.find((x) => x.clubId === c.id);
+                    const mgr = n.coaches.find((x) => x.clubId === c.id && x.isEquipmentManager);
+                    return (
+                      <tr key={c.id} className="group">
+                        <td className="px-1 py-2.5">
+                          <Link href={`/admin/materiel?club=${c.id}`} className="font-semibold group-hover:text-orange">
+                            {c.name}
+                          </Link>
+                          <span className="block font-mono text-[10px] text-mutedfg">{c.city}</span>
+                        </td>
+                        <td className="px-1 py-2.5">
+                          {mgr ? (
+                            <span className="flex items-center gap-2">
+                              <Avatar name={mgr.name} size={24} />
+                              <span className="truncate text-xs">{mgr.name}</span>
+                            </span>
+                          ) : (
+                            <span className="text-xs text-danger">À désigner</span>
+                          )}
+                        </td>
+                        <td className="whitespace-nowrap px-1 py-2.5 text-right font-mono">
+                          {s?.units ?? 0}
+                          {s && s.toRepair > 0 && <span className="block text-[10px] text-danger">{s.toRepair} à réparer</span>}
+                        </td>
+                        <td className="whitespace-nowrap px-1 py-2.5 text-right font-mono text-xs">{s?.valueFCFA ? formatFCFA(s.valueFCFA) : "—"}</td>
+                        <td className="px-1 py-2.5 text-right font-mono">
+                          {s?.activeAlternants ?? 0}/{c.alternanceCapacity}
+                        </td>
+                        <td className={`whitespace-nowrap px-1 py-2.5 text-right font-mono text-xs ${s?.inventoryOverdue ? "text-danger" : "text-mutedfg"}`}>
+                          {s?.lastInventoryDate ? formatDate(s.lastInventoryDate) : s?.items ? "Jamais" : "—"}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </Panel>
+
+        <Panel title="À traiter" icon={BellRing} className="xl:col-span-2">
+          {ALERTS.length === 0 ? (
+            <div className="flex flex-col items-center rounded-2xl bg-success/10 px-4 py-10 text-center">
+              <BadgeCheck size={28} className="text-success" />
+              <p className="mt-2 text-sm font-semibold text-success">Tout est à jour</p>
+              <p className="text-xs text-mutedfg">Parc, inventaires et carnets d&rsquo;alternance.</p>
+            </div>
+          ) : (
+            <ul className="space-y-2">
+              {ALERTS.map((a) => (
+                <li key={a.text}>
+                  <Link href={a.href} className="group flex items-center gap-3 rounded-2xl border border-line p-3 transition-colors hover:border-ink">
+                    <span className={`inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${a.tone === "danger" ? "bg-danger/10 text-danger" : "bg-orangeL text-orange"}`}>
+                      <a.icon size={18} />
+                    </span>
+                    <span className="flex-1 text-sm font-medium">{a.text}</span>
+                    <SlideArrow size={14} />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
+        </Panel>
+      </section>
+
       {/* ===== Carte des modules ===== */}
       <section>
         <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.18em] text-mutedfg">Tous les modules</p>
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 xl:grid-cols-7">
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
           {MODULES.map((m, i) => (
             <motion.div key={m.label} initial={{ opacity: 0, scale: 0.94 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.45 + i * 0.04, ease: EASE }}>
               <Link href={m.href} className="group flex h-full flex-col items-start gap-4 rounded-2xl border border-line bg-white p-4 transition-all duration-300 hover:-translate-y-1 hover:border-orange hover:shadow-soft">
